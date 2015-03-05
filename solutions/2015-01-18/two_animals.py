@@ -8,40 +8,37 @@ mammal, this one wild and not seen in North America.
 
 
 class main:
-    wild_mammals = set(
-                  ['bison',
-                   'fox',
-                   'wolf',
-                   'buffalo',
-                   'hare',
-                   'rabbit',
-                   'squirrel',
-                   'camel',
-                   'moose',
-                   'soomewoc' #ringer moose + cow = soomewoc
+    wild_mammals = set([
+#                   ['bison',
+#                    'fox',
+#                    'wolf',
+#                    'buffalo',
+#                    'hare',
+#                    'rabbit',
+#                    'squirrel',
+#                    'camel',
+#                    'moose',
+#                    'soomewoc' #ringer moose + cow = soomewoc
                    ])
-    domestic_mammals = set(
-                       ['cow',
-                        'cat',
-                        'dog',
-                        'pig',
-                        'sheep',
-                        'llama'
+    domestic_mammals = set([
+#                        ['cow',
+#                         'cat',
+#                         'dog',
+#                         'pig',
+#                         'sheep',
+#                         'llama'
                         ])
     
-    def __init__(self, DEBUG):
+    def __init__(self, DEBUG=False):
         self.DEBUG = DEBUG
         # self.combine_and_compare()
     
     def combine_and_compare(self):
-        # Sorted each wild animal allows us to compare against the concatenated
-        # Domestic + wild animals, so we don't have to deal with the combinatorials around it
         alpha = ["".join(sorted(animal)) for animal in self.wild_mammals]
         if self.DEBUG: print(alpha)
-        candidate_list = [] #contains tuples (wild_mammal, domestic_mammal, which_item_in_list_alpha_matched)
-        for wild_mammal in self.wild_mammals:
-            for domestic_mammal in self.domestic_mammals:
-                # Now we sort to allow for the comparison to our list of sorted wild animals names in alpha
+        candidate_list = [] #contains tuples (wild_mammal, domestic_mammal, correlated alpha)
+        for wild_mammal in list(self.wild_mammals):
+            for domestic_mammal in list(self.domestic_mammals):
                 candidate = "".join(sorted(wild_mammal + domestic_mammal))
                 if self.DEBUG: print(wild_mammal, ":", domestic_mammal, ":", candidate)
                 if candidate in alpha:
@@ -54,11 +51,11 @@ class main:
     
     def add_wild(self, wild_list):
         for mammal in wild_list:
-            self.wild_mammals.add(mammal)
+            self.wild_mammals.add(mammal.lower())
     
     def add_domestic(self, domestic_list):
         for mammal in domestic_list:
-            self.domestic_mammals.add(mammal)
+            self.domestic_mammals.add(mammal.lower())
 
 if __name__ == '__main__':
     m = main(DEBUG=False)
@@ -1132,11 +1129,25 @@ if __name__ == '__main__':
             ,'Zorilla'
             ,'Zorro'
            ]
-    domestic = ['goat'
-               ,'sheep'
+    domestic = ['sheep'
+               ,'horse'
+               ,'Pony'
+               ,'yak'
+               ,'cow'
+               ,'guinea pig'
                ,'dog'
-               ,'cat'
+               ,'mule'
+               ,'pig'
+               ,'ferret'
+               ,'rabbit'
                ,'llama'
+               ,'cattle'
+               ,'alpaca'
+               ,'cat'
+               ,'mouse'
+               ,'goat'
+               ,'donkey'
+               ,'rat'
                ]
     m.add_wild(wild)
     m.add_domestic(domestic)
