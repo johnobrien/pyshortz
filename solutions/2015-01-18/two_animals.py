@@ -9,24 +9,8 @@ mammal, this one wild and not seen in North America.
 
 class main:
     wild_mammals = set([
-#                   ['bison',
-#                    'fox',
-#                    'wolf',
-#                    'buffalo',
-#                    'hare',
-#                    'rabbit',
-#                    'squirrel',
-#                    'camel',
-#                    'moose',
-#                    'soomewoc' #ringer moose + cow = soomewoc
                    ])
     domestic_mammals = set([
-#                        ['cow',
-#                         'cat',
-#                         'dog',
-#                         'pig',
-#                         'sheep',
-#                         'llama'
                         ])
     
     def __init__(self, DEBUG=False):
@@ -38,13 +22,10 @@ class main:
     def combine_and_compare(self):
 
         alpha = ["".join(sorted(animal)) for animal in self.wild_mammals]
-
-        if self.DEBUG: print(alpha)
         candidate_list = [] #contains tuples (wild_mammal, domestic_mammal, correlated alpha)
         for wild_mammal in list(self.wild_mammals):
             for domestic_mammal in list(self.domestic_mammals):
                 candidate = "".join(sorted(wild_mammal + domestic_mammal))
-                if self.DEBUG: print(wild_mammal, ":", domestic_mammal, ":", candidate)
                 if candidate in alpha:
                     candidate_list.append((wild_mammal, domestic_mammal, list(self.wild_mammals)[alpha.index(candidate)]))
                     print("candidate:")
@@ -61,7 +42,7 @@ class main:
             self.domestic_mammals.add(mammal.lower())
 
 if __name__ == '__main__':
-    m = main(DEBUG=False)
+    m = main(DEBUG=True)
     wild = ['Aardwolf'
             ,'Admiral'
             ,'Adouri '
