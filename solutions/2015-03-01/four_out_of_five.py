@@ -5,3 +5,48 @@ and a five-letter word to get a pair of synonyms.
 For example, given 'time' and 'night,' you would say 'item' and 'thing.'
 """
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# List of words in English
+# http://www-personal.umich.edu/~jlawler/wordlist
