@@ -29,19 +29,18 @@ class main:
                         'llama'
                         ])
     
-    def __init__(self, DEBUG):
+    def __init__(self, DEBUG=False):
         self.DEBUG = DEBUG
-        # self.combine_and_compare()
+        if self.DEBUG: 
+            self.add_wild(["soomewoc", "moose"])
+            self.add_domestic(["cow"])
     
     def combine_and_compare(self):
-        # Sorted each wild animal allows us to compare against the concatenated
-        # Domestic + wild animals, so we don't have to deal with the combinatorials around it
-        alpha = ["".join(sorted(animal)) for animal in self.wild_mammals]
+        alpha = ["".join(sorted(animal.lower())) for animal in self.wild_mammals]
         if self.DEBUG: print(alpha)
-        candidate_list = [] #contains tuples (wild_mammal, domestic_mammal, which_item_in_list_alpha_matched)
-        for wild_mammal in self.wild_mammals:
-            for domestic_mammal in self.domestic_mammals:
-                # Now we sort to allow for the comparison to our list of sorted wild animals names in alpha
+        candidate_list = [] #contains tuples (wild_mammal, domestic_mammal, correlated alpha)
+        for wild_mammal in list(self.wild_mammals):
+            for domestic_mammal in list(self.domestic_mammals):
                 candidate = "".join(sorted(wild_mammal + domestic_mammal))
                 if self.DEBUG: print(wild_mammal, ":", domestic_mammal, ":", candidate)
                 if candidate in alpha:
@@ -50,8 +49,7 @@ class main:
                     print("    %s" % wild_mammal)
                     print("    %s" % domestic_mammal)
                     print("    %s" % list(self.wild_mammals)[alpha.index(candidate)])
-        print("Done.")
-    
+        print("Done.")    
     def add_wild(self, wild_list):
         for mammal in wild_list:
             self.wild_mammals.add(mammal)
