@@ -31,10 +31,14 @@ class main:
     
     def __init__(self, DEBUG=False):
         self.DEBUG = DEBUG
-        # self.combine_and_compare()
+        if self.DEBUG: 
+            self.add_wild(["soomewoc", "moose"])
+            self.add_domestic(["cow"])
     
     def combine_and_compare(self):
+
         alpha = ["".join(sorted(animal)) for animal in self.wild_mammals]
+
         if self.DEBUG: print(alpha)
         candidate_list = [] #contains tuples (wild_mammal, domestic_mammal, correlated alpha)
         for wild_mammal in list(self.wild_mammals):
@@ -47,8 +51,7 @@ class main:
                     print("    %s" % wild_mammal)
                     print("    %s" % domestic_mammal)
                     print("    %s" % list(self.wild_mammals)[alpha.index(candidate)])
-        print("Done.")
-    
+        print("Done.")    
     def add_wild(self, wild_list):
         for mammal in wild_list:
             self.wild_mammals.add(mammal.lower())
