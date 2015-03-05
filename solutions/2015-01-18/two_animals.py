@@ -857,7 +857,6 @@ if __name__ == '__main__':
             ,'Rhesus macaque'
             ,'Rhesus monkey'
             ,'Rhinoceros'
-            ,'Richardson's ground squirrel'
             ,'Ring dove'
             ,'Ring-necked pheasant'
             ,'Ring-tailed coatimundi'
