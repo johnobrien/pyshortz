@@ -1,0 +1,4 @@
+3/22/15
+
+Looks like running nltk downloader via nltk.download() execute from a REPL is
+not going to work via the Wifi on Amtrak. I will have to try it later and see if my code works.
