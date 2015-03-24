@@ -28,10 +28,22 @@ class main:
             print("Downloading a list of all words in the english language...\n")
             r = requests.get('http://www-personal.umich.edu/~jlawler/wordlist', timeout=10)
             self.words = r.text.split("\r\n")
-            self.hashed_words = [self.hashify(word) for word in self.words] 
+            self.hashed_words = {}
+            for word in self.words:
+                # Should create or append each word to the hashified version
+                # of that word, so we have a dictionary where the keys are the
+                # hashed versions of words, and the values are a list of 
+                # every word which hashes to the same thing.
+                self.hashed_words.setdefault(self.hashify(word), []).append(word)
+            print("Storing for later use...")
             d["words"] = self.words
             d["hashed_words"] = self.hashed_words
             d.close()
+
+    def debug_print(self, text):
+        if(DEBUG == TRUE):
+            print(text)
+        return
 
     def synonyms(self
                 ,word
@@ -66,23 +78,21 @@ class main:
                             for syn2 in syns:
                                 if len(syn2) == 5:
                                     # The second synonym is five letters long!
-                                    # TODO: Leiran, this section doesn't work
-                                    # I think we need someway to check that the hashed version
-                                    # of the word has a correlate that is not the same as the original word
-                                    # Maybe of dictionary, where the key is the hashed word and the value
-                                    # is the original word?
-                                    hashed_syn1 = self.hashify(syn1)
-                                    hashed_syn2 = self.hashify(syn2)
-                                    if hashed_syn1 in self.hashed_words and hashed_syn2 in self.hashed_words:
-                                        if syn1 != hashed_syn1 and syn2 != hashed_syn2:
-                                            winner = [syn1, syn2]
-                                            winners.append(winner) 
-                                            print("We have a winner!")
-                                            print("Synonym 1:{0}\n").format(syn1)
-                                            print("Synonym 2:{0}\n").format(syn2)
+                                            hashed_syn1 = self.hashify(syn1)
+                                            hashed_syn2 = self.hashify(syn2)
+                                            if hashed_syn1 in self.hashed_words and hashed_syn2 in self.hashed_words:
+                                                    
+                                                if len(self.hashed_words[self.hashify(syn1)]) > 1 and \
+                                                   len(self.hashed_words[self.hashify(syn2)]) > 1:
+                                                    winner = [syn1, syn2]
+                                                    winners.append(winner) 
+                                                    print("We have a winner!")
+                                                    print("Synonym 1:{0}\n").format(syn1)
+                                                    print("Synonym 2:{0}\n").format(syn2)
 
         for winner in winners:
-            print("Winner is {0} and {1}".format(winner[0], winner[1]))
+            print("A winner is {0} and {1}".format(winner[0], winner[1]))
+            print("Alternates are {0} and {1}".format(winner[syn1], winner[syn2]))
         print("Done.")
         return()
     
