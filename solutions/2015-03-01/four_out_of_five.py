@@ -93,10 +93,13 @@ class main:
 
         for winner in winners:
             print("A winner is {0} and {1}".format(winner[0], winner[1]))
-            print("Alternates are {0} and {1}".format(winner[syn1], winner[syn2]))
+            hashed_winner1 = self.hashify(winner[0])
+            hashed_winner2 = self.hashify(winner[1])
+            print("Alternates are {0} and {1}".format(self.hashed_words[hashed_winner1], \
+                                                      self.hashed_words[hashed_winner2]) )
         print("Done.")
         return()
-    
+
 if __name__ == "__main__":
     m = main(DEBUG=True)
     m.solve()
