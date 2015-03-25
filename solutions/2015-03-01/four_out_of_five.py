@@ -1,3 +1,4 @@
+#!/usr/bin/python3.4.2
 """
 Created on Mar 3, 2015
 Rearrange the letters in a four-letter word 
@@ -20,7 +21,7 @@ class main:
         
         d = shelve.open("four_out_of_five.db")
         print("Loading list of all english words...")
-        if d.has_key("words") and d.has_key("hashed_words"):
+        if "words" in d and "hashed_words" in d:
             self.words = d["words"]
             self.hashed_words = d["hashed_words"]
         else:
@@ -63,16 +64,16 @@ class main:
         winners = []
         
         for word in self.words:
-            print("Trying {0}".format(word))
+            # print("Trying {0}".format(word))
             synsets =  wordnet.synsets(word)
-            print("Number of synsets for {0} is {1}.".format(word, len(synsets)))
+            # print("Number of synsets for {0} is {1}.".format(word, len(synsets)))
             for synset in synsets:
-                print("Seeing how many synonyms for first usage of {0}".format(synset.name()))
+                # print("Seeing how many synonyms for first usage of {0}".format(synset.name()))
                 if len(synset.lemma_names()) > 1:
-                    print("{0} has synonyms! \n".format(word))
+                    # print("{0} has synonyms! \n".format(word))
                     syns = synset.lemma_names()
                     for syn1 in syns:
-                        print("Checking first synonym {0}...\n".format(syn1))
+                        # print("Checking first synonym {0}...\n".format(syn1))
                         if len(syn1) == 4:
                             # The first synonym is four letters long!
                             for syn2 in syns:
@@ -86,9 +87,9 @@ class main:
                                                    len(self.hashed_words[self.hashify(syn2)]) > 1:
                                                     winner = [syn1, syn2]
                                                     winners.append(winner) 
-                                                    print("We have a winner!")
-                                                    print("Synonym 1:{0}\n").format(syn1)
-                                                    print("Synonym 2:{0}\n").format(syn2)
+                                                    # print("We have a winner!")
+                                                    # print("Synonym 1:{0}\n".format(syn1))
+                                                    # print("Synonym 2:{0}\n".format(syn2))
 
         for winner in winners:
             print("A winner is {0} and {1}".format(winner[0], winner[1]))
