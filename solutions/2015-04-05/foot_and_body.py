@@ -15,42 +15,54 @@ of the body is a two-word phrase.
 @author: john.obrien, leiran.biton
 '''
 
-'''
-I'm sick of trying to come up w/ lists 
-of things that are worn on the upper body
-or whatever.
-
-New plan: download a dictionary of all words,
-and search their definitions to get words that
-contain arbitrary words in their definition.
-
-Dictionary of words to download:
-https://github.com/adambom/dictionary
-
-How to search for words within the values of dictionaries:
-http://stackoverflow.com/questions/17340922/how-to-search-if-dictionary-value-contains-certain-string-with-python
-
-Rough sketch: download the JSON, 
-load it into a shelf, and search it.
-Probably add it to the "setup" page.
-
-'''
 
 import json
+from string import join
+
+alphabet = "ABCDEFGHIJLKMNOPQRSTUVWXYZ"
+
+'''
+search
+parameters:
+1. a dictionary where the keys are words
+in English and the values are the definitions
+of words
+2. a list of keywords which we are trying to find
+in the definitions of the words
+
+returns:
+a list of words for which the keywords searched for
+were found in the definitions
+'''
+
 
 def search(d, kws):
-    for item in d.items():
+    matches = []
+    for key, value in d.items():
+        # JO: Leiran, I can't think of a better approach
+        # then this matched flag, but I feel like there
+        # must be something better?
+        matched = True
         for kw in kws:
-            if kw not in item.value():
-                continue
-            else:
-               return item.key()
-    return None
-
+            if kw not in value:
+                matched = False
+        if matched is True:
+            matches.append(key)
+    return matches
 
 with open ("dictionary.json", "r") as fp:
     wd = json.load(fp)
 
 
-print(wd["DIPLOBLASTIC"])
-print(search(wd, ["ovum"]))
+footwear = search(wd, ["worn", "foot"])
+upperwear = search(wd, ["worn", "upper"])
+
+candidates = []
+for word in footwear:
+    for offset in range(0, len(word)):
+        for letter in alphabet:
+            changed_word = join([word[0:offset], letter, word[offset+1:len(word)]],"")
+            if letter != word[offset] and changed_word in upperwear:
+                candidates.append((word, changed_word))
+
+print("Candidates: {0}".format(candidates))
