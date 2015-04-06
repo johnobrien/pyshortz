@@ -20,7 +20,6 @@ synsets = wordnet.synsets('die')
 die_synonyms = set()
 die_antonyms = set()
 
-# Print the information
 for synset in synsets:
     for lemma in synset.lemmas():
         die_synonyms.add(lemma.name())
@@ -29,8 +28,12 @@ for synset in synsets:
             
     overlap = die_synonyms and die_antonyms
    
+    dsl = list(die_synonyms)
+    dsl.sort(key=lambda s: len(s))
 
-for s in die_synonyms:
+# Print the information
+
+for s in dsl:
     print("Synonym: {0}".format(s))
 for a in die_antonyms:
     print("Synonym: {0}".format(a))
