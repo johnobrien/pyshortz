@@ -35,3 +35,22 @@ load it into a shelf, and search it.
 Probably add it to the "setup" page.
 
 '''
+
+import json
+
+def search(d, kws):
+    for item in d.items():
+        for kw in kws:
+            if kw not in item.value():
+                continue
+            else:
+               return item.key()
+    return None
+
+
+with open ("dictionary.json", "r") as fp:
+    wd = json.load(fp)
+
+
+print(wd["DIPLOBLASTIC"])
+print(search(wd, ["ovum"]))
