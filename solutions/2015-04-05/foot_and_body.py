@@ -45,7 +45,7 @@ def search(d, kws):
     return matches
 
 def build_candidates(footwear, upperwear):
-    print("Candidates:")
+    print("Candidates-")
     candidates = []
     for word in footwear:
         for offset, letter in enumerate(word):
@@ -53,19 +53,18 @@ def build_candidates(footwear, upperwear):
                 new_word = word[:offset] + new_letter + word[offset+1:]
                 if new_word in upperwear:
                     candidates.append((word, new_word))
-                    print("    ", word, ":", new_word)
+                    print("    Original Word: {0}-> Changed Word:{1}".format(word, new_word))
     return candidates
     
 if __name__ == "__main__":
     print("Running test case...")
-    wd = {"boot": "worn Foot"
-         ,"Coot": "worn upper"}
+    wd = {"boot": "worn Foot",
+          "Coot": "worn upper"}
     footwear   = search(wd, ["worn", "foot"])
     upperwear  = search(wd, ["worn", "upper"])
     candidates = build_candidates(footwear, upperwear)
-    print()
     library = "dictionary.json"
-    print("Running with library...", library)
+    print("Running with library {0}".format(library))
     with open (library, "r") as fp:
         wd = json.load(fp)
     footwear   = search(wd, ["worn", "foot"])
