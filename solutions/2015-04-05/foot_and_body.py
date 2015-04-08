@@ -18,8 +18,8 @@ of the body is a two-word phrase.
 
 import json
 from string import ascii_lowercase as alphabet
-
-# alphabet = "ABCDEFGHIJLKMNOPQRSTUVWXYZ"
+from nltk.corpus import words, wordnet
+import nltk
 
 '''
 search
@@ -38,10 +38,13 @@ were found in the definitions
 
 def search(d, kws):
     matches = []
-    # check kws against all defs in dictionary d
-    for word, definition in d.items():
-        if all([kw.lower() in definition.lower() for kw in kws]):
-            matches.append(word.lower())
+    # check kws against all defs in wordnets list of words
+    for word in words.words():
+        if type(word) == str:
+            synset = wordnet.synsets(word)
+            for syn in synset:
+                if all([kw.lower() in syn.definition().lower() for kw in kws]):
+                            matches.append(word.lower())
     return matches
 
 def build_candidates(footwear, upperwear):
@@ -57,6 +60,8 @@ def build_candidates(footwear, upperwear):
     return candidates
     
 if __name__ == "__main__":
+    nltk.download('wordnet')
+    nltk.download('words')
     print("Running test case...")
     wd = {"boot": "worn Foot",
           "Coot": "worn upper"}
