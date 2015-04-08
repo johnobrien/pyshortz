@@ -15,23 +15,18 @@ of the body is a two-word phrase.
 @author: john.obrien, leiran.biton
 '''
 
-
-import json
+import sys
 from string import ascii_lowercase as alphabet
 from nltk.corpus import words, wordnet
-import nltk
 
 '''
 search
 parameters:
-1. a dictionary where the keys are words
-in English and the values are the definitions
-of words
 2. a list of keywords which we are trying to find
 in the definitions of the words
 
 returns:
-a list of words for which the keywords searched for
+a list of words for which any of the keywords searched for
 were found in the definitions
 '''
 
@@ -39,15 +34,15 @@ were found in the definitions
 def search(kws):
     matches = []
     # check kws against all defs in wordnets list of words
-    for word in str(words.words()):
-            synset = wordnet.synsets(word)
-            for syn in synset:
-                if all([kw.lower() in syn.definition().lower() for kw in kws]):
-                            matches.append(word.lower())
+    for word in words.words():
+        synset = wordnet.synsets(word)
+        for syn in synset:
+            if any([kw.lower() in syn.definition().lower() for kw in kws]):
+                sys.stdout.write(".")
+                matches.append(word.lower())
     return matches
 
 def build_candidates(footwear, upperwear):
-    print("Candidates-")
     candidates = []
     for word in footwear:
         for offset, letter in enumerate(word):
@@ -55,22 +50,23 @@ def build_candidates(footwear, upperwear):
                 new_word = word[:offset] + new_letter + word[offset+1:]
                 if new_word in upperwear:
                     candidates.append((word, new_word))
-                    print("    Original Word: {0}-> Changed Word:{1}".format(word, new_word))
     return candidates
     
 if __name__ == "__main__":
-    nltk.download('wordnet')
-    nltk.download('words')
-#    print("Running test case...")
-#    wd = {"boot": "worn Foot",
-#         "Coot": "worn upper"}
-#    footwear   = search(wd, ["worn", "foot"])
-#    upperwear  = search(wd, ["worn", "upper"])
-#    candidates = build_candidates(footwear, upperwear)
-#    library = "dictionary.json"
-#    print("Running with library {0}".format(library))
-#    with open (library, "r") as fp:
-#        wd = json.load(fp)
-    footwear   = search(["worn", "foot"])
-    upperwear  = search(["worn", "upper"])
+    print("Test Run...")
+    footwear   = ["boot", "shoe"]
+    upperwear  = ["coot", "tshirt"]
     candidates = build_candidates(footwear, upperwear)
+    for word, new_word in candidates:
+        print("    Footwear: {0}-> Upperwear:{1}".format(word, new_word))
+    print("Real run...")
+    footwear   = search(["foot", "feet"])
+    print("Footwear: {0}".format(footwear))
+    upperwear  = search(["upper", "arm", "torso", "chest"])
+    print("Upperwear: {0}".format(upperwear))
+    candidates = build_candidates(footwear, upperwear)
+    if len(candidates) is 0:
+        print("No candidates found.")
+    else:
+        for word, new_word in candidates:
+            print("    Footwear: {0}-> Upperwear:{1}".format(word, new_word))
