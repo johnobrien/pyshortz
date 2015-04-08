@@ -39,14 +39,11 @@ were found in the definitions
 def search(d, kws):
     matches = []
     for key, value in d.items():
-        # JO: Leiran, I can't think of a better approach
-        # then this matched flag, but I feel like there
-        # must be something better?
         matched = True
         for kw in kws:
             if kw not in value:
                 matched = False
-        if matched is True:
+        if matched:
             matches.append(key)
     return matches
 
