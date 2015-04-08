@@ -22,7 +22,7 @@ from nltk.corpus import words, wordnet
 '''
 search
 parameters:
-2. a list of keywords which we are trying to find
+1. a list of keywords which we are trying to find
 in the definitions of the words
 
 returns:
