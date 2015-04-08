@@ -36,11 +36,10 @@ were found in the definitions
 '''
 
 
-def search(d, kws):
+def search(kws):
     matches = []
     # check kws against all defs in wordnets list of words
-    for word in words.words():
-        if type(word) == str:
+    for word in str(words.words()):
             synset = wordnet.synsets(word)
             for syn in synset:
                 if all([kw.lower() in syn.definition().lower() for kw in kws]):
@@ -62,16 +61,16 @@ def build_candidates(footwear, upperwear):
 if __name__ == "__main__":
     nltk.download('wordnet')
     nltk.download('words')
-    print("Running test case...")
-    wd = {"boot": "worn Foot",
-          "Coot": "worn upper"}
-    footwear   = search(wd, ["worn", "foot"])
-    upperwear  = search(wd, ["worn", "upper"])
-    candidates = build_candidates(footwear, upperwear)
-    library = "dictionary.json"
-    print("Running with library {0}".format(library))
-    with open (library, "r") as fp:
-        wd = json.load(fp)
-    footwear   = search(wd, ["worn", "foot"])
-    upperwear  = search(wd, ["worn", "upper"])
+#    print("Running test case...")
+#    wd = {"boot": "worn Foot",
+#         "Coot": "worn upper"}
+#    footwear   = search(wd, ["worn", "foot"])
+#    upperwear  = search(wd, ["worn", "upper"])
+#    candidates = build_candidates(footwear, upperwear)
+#    library = "dictionary.json"
+#    print("Running with library {0}".format(library))
+#    with open (library, "r") as fp:
+#        wd = json.load(fp)
+    footwear   = search(["worn", "foot"])
+    upperwear  = search(["worn", "upper"])
     candidates = build_candidates(footwear, upperwear)
