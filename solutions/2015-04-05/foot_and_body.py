@@ -17,9 +17,9 @@ of the body is a two-word phrase.
 
 
 import json
-from string import join
+from string import ascii_lowercase as alphabet
 
-alphabet = "ABCDEFGHIJLKMNOPQRSTUVWXYZ"
+# alphabet = "ABCDEFGHIJLKMNOPQRSTUVWXYZ"
 
 '''
 search
@@ -38,31 +38,36 @@ were found in the definitions
 
 def search(d, kws):
     matches = []
-    for key, value in d.items():
-        # JO: Leiran, I can't think of a better approach
-        # then this matched flag, but I feel like there
-        # must be something better?
-        matched = True
-        for kw in kws:
-            if kw not in value:
-                matched = False
-        if matched is True:
-            matches.append(key)
+    # check kws against all defs in dictionary d
+    for word, definition in d.items():
+        if all([kw.lower() in definition.lower() for kw in kws]):
+            matches.append(word.lower())
     return matches
 
-with open ("dictionary.json", "r") as fp:
-    wd = json.load(fp)
-
-
-footwear = search(wd, ["worn", "foot"])
-upperwear = search(wd, ["worn", "upper"])
-
-candidates = []
-for word in footwear:
-    for offset in range(0, len(word)):
-        for letter in alphabet:
-            changed_word = join([word[0:offset], letter, word[offset+1:len(word)]],"")
-            if letter != word[offset] and changed_word in upperwear:
-                candidates.append((word, changed_word))
-
-print("Candidates: {0}".format(candidates))
+def build_candidates(footwear, upperwear):
+    print("Candidates:")
+    candidates = []
+    for word in footwear:
+        for offset, letter in enumerate(word):
+            for new_letter in list(set(alphabet).difference(letter)):
+                new_word = word[:offset] + new_letter + word[offset+1:]
+                if new_word in upperwear:
+                    candidates.append((word, new_word))
+                    print("    ", word, ":", new_word)
+    return candidates
+    
+if __name__ == "__main__":
+    print("Running test case...")
+    wd = {"boot": "worn Foot"
+         ,"Coot": "worn upper"}
+    footwear   = search(wd, ["worn", "foot"])
+    upperwear  = search(wd, ["worn", "upper"])
+    candidates = build_candidates(footwear, upperwear)
+    print()
+    library = "dictionary.json"
+    print("Running with library...", library)
+    with open (library, "r") as fp:
+        wd = json.load(fp)
+    footwear   = search(wd, ["worn", "foot"])
+    upperwear  = search(wd, ["worn", "upper"])
+    candidates = build_candidates(footwear, upperwear)
