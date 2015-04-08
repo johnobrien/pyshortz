@@ -54,6 +54,9 @@ with open ("dictionary.json", "r") as fp:
     wd = json.load(fp)
 
 
+wd = {"boot": "worn foot",
+      "coot": "worn upper"}
+
 footwear = search(wd, ["worn", "foot"])
 upperwear = search(wd, ["worn", "upper"])
 
@@ -66,3 +69,5 @@ for word in footwear:
                 candidates.append((word, changed_word))
 
 print("Candidates: {0}".format(candidates))
+print(footwear)
+print(upperwear)
