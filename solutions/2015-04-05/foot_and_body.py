@@ -72,6 +72,7 @@ if __name__ == "__main__":
     footwear.extend(search(["feet", "worn"], stype=all))
     footwear.extend(search(["foot", "wear"], stype=all))
     footwear.extend(search(["feet", "wear"], stype=all))
+    footwear.extend(search(["shoe", "sock", "boot"], stype=any))
     footwear = list(set(footwear)) # remove duplicates
     print("Footwear: {0}".format(footwear))
     
@@ -81,12 +82,15 @@ if __name__ == "__main__":
     upperwear.extend(search(["shoulder", "worn"], stype=all))
     upperwear.extend(search(["chest", "worn"], stype=all))
     upperwear.extend(search(["back", "worn"], stype=all))
+    upperwear.extend(search(["top", "worn"], stype=all))
     upperwear.extend(search(["upper", "wear"], stype=all))
     upperwear.extend(search(["arm", "wear"], stype=all))
     upperwear.extend(search(["torso", "wear"], stype=all))
     upperwear.extend(search(["shoulder", "wear"], stype=all))
     upperwear.extend(search(["chest", "wear"], stype=all))
     upperwear.extend(search(["back", "wear"], stype=all))
+    upperwear.extend(search(["top", "wear"], stype=all))
+    upperwear.extend(search(["coat", "shirt", "jacket", "necklace", "sweater"], stype=any))
     upperwear = list(set(upperwear)) # remove duplicates
     print("Upperwear: {0}".format(upperwear))
     candidates = build_candidates(footwear, upperwear)
