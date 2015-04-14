@@ -19,8 +19,6 @@ Solve pretty
 given a list of jobs, runs solve, and prints the output.
 '''
 
-from string import ascii_lowercase
-
 def solve_pretty(jobs):
     solutions = solve(jobs)
     if solutions == []:
@@ -45,12 +43,13 @@ might be the solution
 '''
 
 def solve(jobs):
+    from string import ascii_lowercase
+    nextletter = "".maketrans(ascii_lowercase,ascii_lowercase[1:]+"a")
     solutions = []
     # convert all to lower, b/c we check
     # whether new_job is in jobs, so all jobs
     # have to be lower
     # note: assumes all jobs are single words
-    
     jobs = [job.lower() for job in jobs]
     for job in jobs:
         # ignore jobs longer than 8 letters
@@ -58,28 +57,28 @@ def solve(jobs):
             continue
         # Create a new job title by incrementing each letter by 1
         # within the current job title we're looking at
+        
         for offset, letter in enumerate(job):
-            new_letter = chr(ord(letter) + 1)
-            for new_letter in set(ascii_lowercase).difference(letter):
-                new_job = job[:offset] + new_letter + job[offset+1:]
-                if new_job in jobs:
-                    if not (new_job, job) in solutions: # do not add duplicates
-                        solutions.append((job, new_job))
+            new_letter = letter.translate(nextletter)
+            new_job = job[:offset] + new_letter + job[offset+1:]
+            if new_job in jobs:
+                if not (new_job, job) in solutions: # do not add duplicates
+                    solutions.append((job, new_job))
 
     return solutions
 
 if __name__ == "__main__":
-    print("Dummy data run..")
+    print("Dummy data run...")
     print("Expected matches:")
     print("    director --> eirector")
-    print("    traitors --> traiters")
+    print("    traitors --> traitort")
     jobs = ["director",
             "Eirector",
             "waiter",
             "gaiter",
             "gaitor",
             "Traitors",
-            "traiters"
+            "traitorT"
             ]
     print("results:")
     solve_pretty(jobs)
@@ -87,11 +86,32 @@ if __name__ == "__main__":
     
     # List of jobs in theater: http://en.wikipedia.org/wiki/List_of_theatre_personnel
     # jobs can only be 8 letters long
-    jobs = ["producer",
-            "director",
-            "designer",
-            "waitress",
-            ""]
+    jobs = ["producer"
+           ,"director"
+           ,"designer"
+           ,"waitress"
+           ,"Playwright"
+           ,"Choreographer"
+           ,"stagehand"
+           ,"writer"
+           ,"wrestler"
+           ,"supervisor"
+           ,"manager"
+           ,"publicist"
+           ,"usher"
+           ,"actor"
+           ,"actress"
+           ,"waiter"
+           ,"critic"
+           ,"playwright"
+           ,"Dramaturg"
+           ,"Dramaturge"
+           ,"stagecrew"
+           ,"Publicist"
+           ,"Showgirl"
+           ,"daredevil"
+           ,"stuntdouble"
+           ] 
     handrun = solve_pretty(jobs)
     print("NlTK Generated data run...")
     print("....not yet implemented!")
