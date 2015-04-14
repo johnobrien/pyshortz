@@ -1,4 +1,4 @@
-#!/usr/bin/python3.4.2
+#!/usr/local/bin/env python 
 '''
 Created on Apr 12, 2015
 
@@ -19,14 +19,15 @@ Solve pretty
 given a list of jobs, runs solve, and prints the output.
 '''
 
+from string import ascii_lowercase
 
 def solve_pretty(jobs):
     solutions = solve(jobs)
     if solutions == []:
         print("No solutions found.")
     else:
-        for solution in solutions:
-            print("One possible solution is {0} and {1}".format(solution[0], solution[1]))
+        for solution in solutions: # reformatted for ease of viewing
+            print("    {0} --> {1}".format(solution[0], solution[1]))
     return
 
 
@@ -48,27 +49,42 @@ def solve(jobs):
     # convert all to lower, b/c we check
     # whether new_job is in jobs, so all jobs
     # have to be lower
+    # note: assumes all jobs are single words
     
     jobs = [job.lower() for job in jobs]
     for job in jobs:
-        # Create a new job title by incrementing each letter by 1
-        # within the currrent job title we're looking at
+        # ignore jobs longer than 8 letters
         if len(job) is not 8:
             continue
+        # Create a new job title by incrementing each letter by 1
+        # within the current job title we're looking at
         for offset, letter in enumerate(job):
             new_letter = chr(ord(letter) + 1)
-            new_job = job[:offset] + new_letter + job[offset+1:]
-            if new_job in jobs:
-                solutions.append((job, str(new_job)))
+            for new_letter in set(ascii_lowercase).difference(letter):
+                new_job = job[:offset] + new_letter + job[offset+1:]
+                if new_job in jobs:
+                    if not (new_job, job) in solutions: # do not add duplicates
+                        solutions.append((job, new_job))
 
     return solutions
 
 if __name__ == "__main__":
     print("Dummy data run..")
+    print("Expected matches:")
+    print("    director --> eirector")
+    print("    traitors --> traiters")
     jobs = ["director",
-            "Eirector"]
+            "Eirector",
+            "waiter",
+            "gaiter",
+            "gaitor",
+            "Traitors",
+            "traiters"
+            ]
+    print("results:")
     solve_pretty(jobs)
     print("Hand crafted data run...")
+    
     # List of jobs in theater: http://en.wikipedia.org/wiki/List_of_theatre_personnel
     # jobs can only be 8 letters long
     jobs = ["producer",
@@ -76,5 +92,6 @@ if __name__ == "__main__":
             "designer",
             "waitress",
             ""]
-    solve_pretty(jobs)
+    handrun = solve_pretty(jobs)
     print("NlTK Generated data run...")
+    print("....not yet implemented!")
