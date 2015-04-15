@@ -42,9 +42,12 @@ might be the solution
 
 '''
 
+from sys import version_info
+
 def solve(jobs):
     from string import ascii_lowercase
-    nextletter = "".maketrans(ascii_lowercase,ascii_lowercase[1:]+"a")
+    def nextletter(letter): 
+        return chr(ord(letter)+1)
     solutions = []
     # convert all to lower, b/c we check
     # whether new_job is in jobs, so all jobs
@@ -59,7 +62,7 @@ def solve(jobs):
         # within the current job title we're looking at
         
         for offset, letter in enumerate(job):
-            new_letter = letter.translate(nextletter)
+            new_letter = nextletter(letter)
             new_job = job[:offset] + new_letter + job[offset+1:]
             if new_job in jobs:
                 if not (new_job, job) in solutions: # do not add duplicates
@@ -114,4 +117,22 @@ if __name__ == "__main__":
            ] 
     handrun = solve_pretty(jobs)
     print("NlTK Generated data run...")
-    print("....not yet implemented!")
+    jobs = []
+    from nltk.corpus import words, wordnet
+    kws = ["occupation"
+          ,"job"
+          ,"someone"
+          ,"person"
+          ,"a man"
+          ,"a woman"
+          ,"duty"
+          ,"duties"
+          ]
+    for word in words.words():
+        synset = wordnet.synsets(word)
+        for syn in synset:
+            if any([kw.lower() in syn.definition().lower() for kw in kws]) and \
+                len(syn.name().split(".")[0]) == 8:
+                    jobs.append(syn.name().split(".")[0].lower())
+    nltkrun = solve_pretty(jobs)
+    # print("....not yet implemented!")
