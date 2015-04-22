@@ -1,6 +1,5 @@
 #!/usr/local/bin/env python
 """solution to the 4-19-2015 NPR puzzle for pyshortz blog."""
-from builtins import AssertionError
 
 problem = """Problem:
 Take the first names of two politicians in the news. 
@@ -24,13 +23,15 @@ class solution:
         word1, word2 = [self.read_backward(name) for name in \
                         self.switch_letters(name1, name2)]
 
-        if word1 in self.match_against and word2 in self.match_against:
-            return (word1, word2)  
+        if word1 in self.match_against and word2 in self.match_against \
+        and self.wordnet.synsets(word1) and self.wordnet.synsets(word2):
+            return (word1, word2)
         else:
             return None
     
     def __init__(self, names):
-        from nltk.corpus import words
+        from nltk.corpus import words, wordnet
+        self.wordnet = wordnet
         self.match_against = words.words()
         self.candidates = []
         for i, name1 in enumerate(names):
@@ -113,12 +114,10 @@ if __name__ == "__main__":
              "Allen")
     print("Add names from file pols.txt to list of presidential candidates...")
     f = open("pols.txt", "r")
-    names = tuple(set([name.split()[0] for name in f.readlines()]))
+    names = tuple(set([name.split()[0] for name in f.readlines()]).union(presidential_candidates))
     f.close()
-    names += presidential_candidates
-
+    #names += presidential_candidates
     s = solution(names)
-    
     if len(s.candidates):
         for n, candidate in enumerate(s.candidates):
             print("{0}. Answer could be:{1},{2}-->{3},{4}".format(n, candidate[0], candidate[1], candidate[2], candidate[3]))
