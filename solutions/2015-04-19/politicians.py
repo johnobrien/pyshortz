@@ -1,5 +1,6 @@
 #!/usr/local/bin/env python
 """solution to the 4-19-2015 NPR puzzle for pyshortz blog."""
+from builtins import AssertionError
 
 problem = """Problem:
 Take the first names of two politicians in the news. 
@@ -115,7 +116,9 @@ if __name__ == "__main__":
     names = tuple(set([name.split()[0] for name in f.readlines()]))
     f.close()
     names += presidential_candidates
+
     s = solution(names)
+    
     if len(s.candidates):
         for n, candidate in enumerate(s.candidates):
             print("{0}. Answer could be:{1},{2}-->{3},{4}".format(n, candidate[0], candidate[1], candidate[2], candidate[3]))
