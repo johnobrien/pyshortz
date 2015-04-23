@@ -1,0 +1,26 @@
+Common tags to use in blog posts
+
+Use the "Text" view on wordpress
+
+Around the puzzle description:
+
+<em>Think of a word that rhymes with "orange".</em>
+
+
+Around point of view:
+
+<strong>John's point of view:</strong>
+Around the 1st snippet:
+
+[sourcecode language="python"]
+
+def wtf():
+	pass
+
+[/sourcecode]
+
+Around subsequent snippets or console output:
+
+[sourcecode]
+Nothing rhymes with "orange".
+[/sourcecode]

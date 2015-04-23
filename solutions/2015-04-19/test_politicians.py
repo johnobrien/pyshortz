@@ -4,14 +4,14 @@ from politicians import solution
 class TestSolution(unittest.TestCase):
 
     def test_two_names(self):
-        names = ("Hlbmuh", "Ecuoc")
+        names = ("Euh", "Mlb")
         s = solution(names)
-        self.assertEqual(s.candidates, [("Hlbmuh", "Ecuoc", "humble", "couch")], "Hlbmuh and Ecuoc did not generate humble and couch.")
+        self.assertEqual(s.candidates, [("Euh", "Mlb", "humble", "blehum")], "Hlbmuh and Ecuoc did not generate humble and couch.")
         
     def test_three_names(self):
-        names = ("Hlbmuh", "Ecuoc", "Parsley")
+        names = ("Euh", "Mlb", "Parsley")
         s = solution(names)
-        self.assertEqual(s.candidates, [("Hlbmuh", "Ecuoc", "humble", "couch")], "Hlbmuh, Ecuoc and Parsley did not generate humble and couch.")
+        self.assertEqual(s.candidates, [("Euh", "Mlb", "humble", "blehum")], "Hlbmuh, Ecuoc and Parsley did not generate humble and couch.")
 
     def test_four_names(self):
         names = ("Ben", "Ted", "Tim", "Don")
