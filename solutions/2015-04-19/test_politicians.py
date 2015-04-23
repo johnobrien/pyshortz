@@ -6,7 +6,7 @@ class TestSolution(unittest.TestCase):
     def test_two_names(self):
         names = ("Euh", "Mlb")
         s = solution(names)
-        self.assertEqual(s.candidates, [("Euh", "Mlb", "humble", "blehum")], "Hlbmuh and Ecuoc did not generate humble and couch.")
+        self.assertEqual(s.candidates, [("Euh", "Mlb", "humble")], "Hlbmuh and Ecuoc did not generate humble and couch.")
         
     def test_three_names(self):
         names = ("Euh", "Mlb", "Parsley")

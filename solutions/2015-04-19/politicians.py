@@ -8,6 +8,7 @@ result backward to name something that each of these
 politicians is not.
 """
 
+
 class solution:
     
     def switch_letters(self, name1, name2):     
@@ -31,6 +32,7 @@ class solution:
                 # comes back if it gets a hit on the first
                 # even if the second could be a hit too
                 # but whatever for now...
+                print("Match! {0}, {1}->{2}".format(name1, name2, word))
                 return word
             else:
                 return None
