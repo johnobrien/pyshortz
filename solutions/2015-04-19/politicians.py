@@ -23,11 +23,11 @@ class solution:
         "process the names through switch_letters and read_backward"
         part1, part2 = [self.read_backward(name) for name in \
                         self.switch_letters(name1, name2)]
-        for word in part1+part2, part2+part1:
-            if word in self.match_against:
-                return word
-            else:
-                return None
+        word = part1+part2 
+        if word in self.match_against:
+            return word
+        else:
+            return None
     
     def __init__(self, names, verbose=False):
         from nltk.corpus import words, wordnet
@@ -39,12 +39,12 @@ class solution:
             # status indicator
             if verbose: print(".", end="", flush=True)
             for j, name2 in enumerate(names):
-                if self.process_names(name1, name2):
-                    word = self.process_names(name1, name2)
-                    if (name1, name2, word) not in self.candidates and \
-                       (name2, name1, word) not in self.candidates:
-                        if verbose: print("!", end="", flush=True)
-                        self.candidates.append((name1, name2, word))
+                for word in self.process_names(name1, name2), self.process_names(name2, name1): 
+                    if word:
+                        if (name1, name2, word) not in self.candidates and \
+                           (name2, name1, word) not in self.candidates:
+                            if verbose: print("!", end="", flush=True)
+                            self.candidates.append((name1, name2, word))
         if verbose: 
             print()
             for name1, name2, word in self.candidates:
