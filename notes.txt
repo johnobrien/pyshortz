@@ -27,5 +27,5 @@ Nothing rhymes with "orange".
 
 4/23/15
 
-Next week, try using: https://pypi.python.org/pypi/progress/1.2
+Next week, try using: https://pypi.python.org/pypi/progressbar2
 
