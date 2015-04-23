@@ -29,7 +29,7 @@ class solution:
             else:
                 return None
     
-    def __init__(self, names):
+    def __init__(self, names, verbose=False):
         from nltk.corpus import words, wordnet
         self.wordnet = wordnet
         self.match_against = words.words()
@@ -37,16 +37,18 @@ class solution:
         names = list(names)
         for i, name1 in enumerate(names):
             # status indicator
-            print(".", end="", flush=True)
+            if verbose: print(".", end="", flush=True)
             for j, name2 in enumerate(names):
                 if self.process_names(name1, name2):
                     word = self.process_names(name1, name2)
-                    if (name1, name2, word) not in self.candidates:
-                        print("!", end="", flush=True)
+                    if (name1, name2, word) not in self.candidates and \
+                       (name2, name1, word) not in self.candidates:
+                        if verbose: print("!", end="", flush=True)
                         self.candidates.append((name1, name2, word))
-        print()
-        for name1, name2, word in self.candidates:
-            print("Match! {0}, {1} -> {2}".format(name1, name2, word))
+        if verbose: 
+            print()
+            for name1, name2, word in self.candidates:
+                print("Match! {0}, {1} -> {2}".format(name1, name2, word))
         
 if __name__ == "__main__":
     print("\n"+problem)
@@ -128,7 +130,7 @@ if __name__ == "__main__":
     # names.update(presidential_candidates)
     # s = solution(names)
     
-    s = solution(presidential_candidates)
+    s = solution(presidential_candidates, verbose=True)
     
     #if len(s.candidates):
     #    for n, candidate in enumerate(s.candidates):
