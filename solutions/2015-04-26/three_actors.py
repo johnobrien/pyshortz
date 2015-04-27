@@ -131,6 +131,7 @@ class Solution(object):
 
 if __name__ == "__main__":
     print("\n"+problem)
+    # From http://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Stars
     actors = {  'Humphrey Bogart',
                 'Cary Grant',
                 'James Stewart',
