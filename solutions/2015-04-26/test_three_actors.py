@@ -41,8 +41,6 @@ class TestSolution(unittest.TestCase):
         s = Solution(None)
         self.assertTrue(s.third_actor(actor1, actor2, actor3))
 
-
-
     def test_three_actors(self):
         actors = {"Earnest Fleming",
                   "Earnest Troming",
@@ -52,6 +50,17 @@ class TestSolution(unittest.TestCase):
                                  "Killing Fletro")}
         s = Solution(actors)
         self.assertEqual(possible_answers, s.possible_answers)
+
+    def test_three_actors_reverse_order(self):
+        actors = {"Killing Fletro",
+                  "Earnest Fleming",
+                  "Earnest Fleming"
+                  }
+        possible_answers = {("Earnest Fleming",
+                                 "Earnest Troming",
+                                 "Killing Fletro")}
+        s = Solution(actors)
+        self.assertEqual(possible_answers, s.possible_answers, "S.possible_answers is: {0}".format((s.possible_answers)))
 
 
 if __name__ == "__main__":

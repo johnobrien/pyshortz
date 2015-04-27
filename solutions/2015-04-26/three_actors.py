@@ -103,14 +103,29 @@ class Solution(object):
             
         '''
         possible_answers  = set()
+        actors1 = []
+        actors2 = []
+        actors3 = []
+        
         if actors:
         
             for actor1 in actors:
-                for actor2 in actors:
-                    for actor3 in actors:
-                        if self.first_actor(actor1) and \
-                           self.second_actor(actor1, actor2) and \
-                           self.third_actor(actor1, actor2, actor3):
+                print(".", end="", flush=True)
+                if self.first_actor(actor1): 
+                    actors1.append(actor1)
+                    
+            for actor2 in actors:
+                print(".", end="", flush=True)
+                for actor1 in actors1:
+                    if self.second_actor(actor1, actor2): 
+                        actors2.append(actor2)
+                    
+            for actor3 in actors:
+                print(".", end="", flush=True)
+                for actor2 in actors2:
+                    for actor1 in actors1:
+                        if self.third_actor(actor1, actor2, actor3):
+                            print("!", end="", flush=True)
                             possible_answers.add((actor1, actor2, actor3))
 
         return possible_answers
@@ -187,6 +202,7 @@ if __name__ == "__main__":
     s = Solution(actors)
     if s.possible_answers:
         for possible_answer in s.possible_answers:
+            print("\n")
             print(possible_answer)
     else:
-        print("No possible answers were found.")
+        print("\n No possible answers were found.")
