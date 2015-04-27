@@ -62,7 +62,8 @@ class Solution(object):
         first1, last1 = actor1.split()
         first2, last2 = actor2.split()
         
-        return first1 == first2 and last1[3:] == last2[3:]
+        return first1.lower() == first2.lower() and \
+            last1[3:].lower() == last2[3:].lower()
 
     def third_actor(self, actor1, actor2, actor3):
         '''
@@ -87,7 +88,7 @@ class Solution(object):
         first2, last2 = actor2.split()
         first3, last3 = actor3.split()
  
-        return last3 == last1[:3] + last2[:3]
+        return last3.lower() == (last1[:3] + last2[:3]).lower()
 
     def process_actors(self, actors):
         '''
@@ -101,12 +102,16 @@ class Solution(object):
                                     meet the requirements
             
         '''
-        possible_answer  = set()
-        for actor1 in actors:
-            for actor2 in actors:
-                for actor3 in actors:
-                    if actor_one(actor1) and actor_two(actor2) and actor_three(actor3):
-                        possible_answer.update((actor2, actor2, actor3))
+        possible_answers  = set()
+        if actors:
+        
+            for actor1 in actors:
+                for actor2 in actors:
+                    for actor3 in actors:
+                        if self.first_actor(actor1) and \
+                           self.second_actor(actor1, actor2) and \
+                           self.third_actor(actor1, actor2, actor3):
+                            possible_answers.add((actor1, actor2, actor3))
 
         return possible_answers
 
@@ -126,4 +131,61 @@ class Solution(object):
 
 if __name__ == "__main__":
     print("\n"+problem)
+    actors = {  'Humphrey Bogart',
+                'Cary Grant',
+                'James Stewart',
+                'Marlon Brando',
+                'Fred Astaire',
+                'Henry Fonda',
+                'Clark Gable',
+                'James Cagney',
+                'Spencer Tracy',
+                'Charlie Chaplin',
+                'Gary Cooper',
+                'Gregory Peck',
+                'John Wayne',
+                'Laurence Olivier',
+                'Gene Kelly',
+                'Orson Welles',
+                'Kirk Douglas',
+                'James Dean',
+                'Burt Lancaster',
+                'Marx Brothers',
+                'Buster Keaton',
+                'Sidney Poitier',
+                'Robert Mitchum',
+                'Edward Robinson',
+                'William Holden',
+                'Katharine Hepburn',
+                'Bette Davis',
+                'Audrey Hepburn',
+                'Ingrid Bergman',
+                'Greta Garbo',
+                'Marilyn Monroe',
+                'Elizabeth Taylor',
+                'Judy Garland',
+                'Marlene Dietrich',
+                'Joan Crawford',
+                'Barbara Stanwyck',
+                'Claudette Colbert',
+                'Grace Kelly',
+                'Ginger Rogers',
+                'Mae West',
+                'Vivien Leigh',
+                'Lillian Gish',
+                'Shirley Temple',
+                'Rita Hayworth',
+                'Lauren Bacall',
+                'Sophia Loren',
+                'Jean Harlow',
+                'Carole Lombard',
+                'Mary Pickford',
+                'Ava Gardner',
+                }
 
+    s = Solution(actors)
+    if s.possible_answers:
+        for possible_answer in s.possible_answers:
+            print(possible_answer)
+    else:
+        print("No possible answers were found.")

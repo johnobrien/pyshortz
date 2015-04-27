@@ -37,19 +37,19 @@ class TestSolution(unittest.TestCase):
     def test_third_actor(self):
         actor1 = "Earnest Fleming"
         actor2 = "Earnest Troming"
-        actor3 = "Killing Fletr"
+        actor3 = "Killing Fletro"
         s = Solution(None)
-        self.assertTrue(s.second_actor(actor1, actor2, actor3))
+        self.assertTrue(s.third_actor(actor1, actor2, actor3))
 
 
 
     def test_three_actors(self):
         actors = {"Earnest Fleming",
                   "Earnest Troming",
-                  "Killing Fletr"}
+                  "Killing Fletro"}
         possible_answers = {("Earnest Fleming",
                                  "Earnest Troming",
-                                 "Killing Fletr")}
+                                 "Killing Fletro")}
         s = Solution(actors)
         self.assertEqual(possible_answers, s.possible_answers)
 
