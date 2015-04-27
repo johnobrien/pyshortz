@@ -53,7 +53,7 @@ class TestSolution(unittest.TestCase):
 
     def test_three_actors_reverse_order(self):
         actors = {"Killing Fletro",
-                  "Earnest Fleming",
+                  "Earnest Troming",
                   "Earnest Fleming"
                   }
         possible_answers = {("Earnest Fleming",
@@ -62,7 +62,29 @@ class TestSolution(unittest.TestCase):
         s = Solution(actors)
         self.assertEqual(possible_answers, s.possible_answers, "S.possible_answers is: {0}".format((s.possible_answers)))
 
-
+    def test_many_actors(self):
+        actors = {'Humphrey Bogart',
+                  'Cary Grant',
+                  'James Stewart',
+                  'Marlon Brando',
+                  'Fred Astaire',
+                  'Henry Fonda',
+                  'Clark Gable',
+                  'James Cagney',
+                  'Spencer Tracy',
+                  'Charlie Chaplan',
+                  'Sevenss Letters',
+                  'Mannny Ramirez',
+                  'Sevenss Balters',
+                  'Luke Skywalker',
+                  'Random Letbal',
+                  'Flavor McHumperdink'}
+        possible_answers = {(   "Sevenss Letters",
+                                "Sevenss Balters",
+                                "Random Letbal")}
+        s = Solution(actors)
+        self.assertEqual(possible_answers, s.possible_answers, "S.possible_answers is: {0}".format((s.possible_answers)))
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

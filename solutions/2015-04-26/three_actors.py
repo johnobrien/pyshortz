@@ -61,6 +61,8 @@ class Solution(object):
         '''
         first1, last1 = actor1.split()
         first2, last2 = actor2.split()
+
+        if actor1 == actor2: return False
         
         return first1.lower() == first2.lower() and \
             last1[3:].lower() == last2[3:].lower()
@@ -110,28 +112,28 @@ class Solution(object):
         if actors:
         
             for actor1 in actors:
-                print(".", end="", flush=True)
+                if self.verbose: print(".", end="", flush=True)
                 if self.first_actor(actor1): 
                     actors1.append(actor1)
                     
             for actor2 in actors:
-                print(".", end="", flush=True)
+                if self.verbose: print(".", end="", flush=True)
                 for actor1 in actors1:
                     if self.second_actor(actor1, actor2): 
                         actors2.append(actor2)
                     
             for actor3 in actors:
-                print(".", end="", flush=True)
+                if self.verbose: print(".", end="", flush=True)
                 for actor2 in actors2:
                     for actor1 in actors1:
                         if self.third_actor(actor1, actor2, actor3):
-                            print("!", end="", flush=True)
+                            if self.verbose: print("!", end="", flush=True)
                             possible_answers.add((actor1, actor2, actor3))
 
         return possible_answers
 
 
-    def __init__(self, actors):
+    def __init__(self, actors, verbose=False):
         '''
         Args:
             actor (set): A list of strings, each of which is the first and last name of an actor
@@ -142,6 +144,7 @@ class Solution(object):
                                  "Killing Fletr")}
             
         '''
+        self.verbose = verbose
         self.possible_answers = self.process_actors(actors)
 
 if __name__ == "__main__":
@@ -199,7 +202,7 @@ if __name__ == "__main__":
                 'Ava Gardner',
                 }
 
-    s = Solution(actors)
+    s = Solution(actors, verbose=True)
     if s.possible_answers:
         for possible_answer in s.possible_answers:
             print("\n")
