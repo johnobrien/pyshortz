@@ -150,58 +150,13 @@ class Solution(object):
 if __name__ == "__main__":
     print("\n"+problem)
     # From http://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Stars
-    actors = {  'Humphrey Bogart',
-                'Cary Grant',
-                'James Stewart',
-                'Marlon Brando',
-                'Fred Astaire',
-                'Henry Fonda',
-                'Clark Gable',
-                'James Cagney',
-                'Spencer Tracy',
-                'Charlie Chaplin',
-                'Gary Cooper',
-                'Gregory Peck',
-                'John Wayne',
-                'Laurence Olivier',
-                'Gene Kelly',
-                'Orson Welles',
-                'Kirk Douglas',
-                'James Dean',
-                'Burt Lancaster',
-                'Marx Brothers',
-                'Buster Keaton',
-                'Sidney Poitier',
-                'Robert Mitchum',
-                'Edward Robinson',
-                'William Holden',
-                'Katharine Hepburn',
-                'Bette Davis',
-                'Audrey Hepburn',
-                'Ingrid Bergman',
-                'Greta Garbo',
-                'Marilyn Monroe',
-                'Elizabeth Taylor',
-                'Judy Garland',
-                'Marlene Dietrich',
-                'Joan Crawford',
-                'Barbara Stanwyck',
-                'Claudette Colbert',
-                'Grace Kelly',
-                'Ginger Rogers',
-                'Mae West',
-                'Vivien Leigh',
-                'Lillian Gish',
-                'Shirley Temple',
-                'Rita Hayworth',
-                'Lauren Bacall',
-                'Sophia Loren',
-                'Jean Harlow',
-                'Carole Lombard',
-                'Mary Pickford',
-                'Ava Gardner',
-                }
-
+    # Maybe try to scrape movie star names from http://projects.latimes.com/hollywood/star-walk/list/
+    from lxml import html
+    import requests
+    
+    page = requests.get('http://projects.latimes.com/hollywood/star-walk/list/')
+    tree = html.fromstring(page.text)
+    actors = tree.xpath('//a/[@href="/hollywood/star-walk.*')
     s = Solution(actors, verbose=True)
     if s.possible_answers:
         for possible_answer in s.possible_answers:
