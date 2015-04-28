@@ -111,29 +111,20 @@ class Solution(object):
         actors2 = []
         actors3 = []
         
-        if self.verbose: print("Processing names for elibility as the first actor...")
+        if self.verbose: print("Processing names for eligibility as the first actor...")
         for actor1 in actors:
-            if self.verbose: print(".", end="", flush=True)
             if self.first_actor(actor1): 
                 actors1.append(actor1)
         
-        if self.verbose: print("Processing names for elibility as the second actor...")
+        if self.verbose: print("Processing names for eligibility as the second actor...")
         for actor2 in actors:
-            if self.verbose: print(".", end="", flush=True)
             for actor1 in actors1:
                 if self.second_actor(actor1, actor2): 
                     actors2.append(actor2)
-        
-        for actor3 in actors:
-            if self.verbose: print(".", end="", flush=True)
-            for actor2 in actors2:
-                for actor1 in actors1:
-                    if self.third_actor(actor1, actor2, actor3):
-                        if self.verbose: print("!", end="", flush=True)
-                        possible_answers.add((actor1, actor2, actor3))
-        
+                    for actor3 in actors:
+                        if self.third_actor(actor1, actor2, actor3):
+                            possible_answers.add((actor1, actor2, actor3))
         return possible_answers
-
 
     def __init__(self, actors, verbose=False):
         '''
@@ -143,27 +134,32 @@ class Solution(object):
         Example self.possible_answers value:
             possible_answers = {("Earnest Fleming",
                                  "Earnest Troming",
-                                 "Killing Fletr")}
+                                 "Killing Fletro")}
             
         '''
         self.verbose = verbose
-        self.possible_answers = self.process_actors(actors)
+        if actors:
+            self.possible_answers = self.process_actors(actors)
 
 if __name__ == "__main__":
     print("\n"+problem)
     # From http://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Stars
     # Maybe try to scrape movie star names from http://projects.latimes.com/hollywood/star-walk/list/
     
-    page = requests.get('http://projects.latimes.com/hollywood/star-walk/list/')
+    #page = requests.get('http://projects.latimes.com/hollywood/star-walk/list/')
     # TODO: Leiran, I don't know much about regular expressions, but I can't get LXML or Beautiful Soup
     # Or scrapy installed on my machine, so I was trying to use Regex's to get a list of actors
     # Any ideas?
-    urls = re.findall(r'<a href="/hollywood/star-walk/licia-albanese/">Albanese, Licia</a>', page.text)
-    print(urls)
+    #urls = re.findall(r'<a href="/hollywood/star-walk/licia-albanese/">Albanese, Licia</a>', page.text)
+    #print(urls)
+    actors = {"Earnest Fleming"
+             ,"Earnest Troming"
+             ,"Killing Fletro"
+             }
     s = Solution(actors, verbose=True)
+    print("Candidates:")
     if s.possible_answers:
-        for possible_answer in s.possible_answers:
-            print("\n")
-            print(possible_answer)
+        for actor1, actor2, actor3 in s.possible_answers:
+            print("{0}, {1} -> {2}".format(actor1, actor2, actor3))
     else:
         print("\n No possible answers were found.")
