@@ -10,7 +10,8 @@ Around the puzzle description:
 Around point of view:
 
 <strong>John's point of view:</strong>
-Around the 1st snippet:
+
+Around every code snippet:
 
 [sourcecode language="python"]
 
@@ -19,7 +20,7 @@ def wtf():
 
 [/sourcecode]
 
-Around subsequent snippets or console output:
+Around console output:
 
 [sourcecode]
 Nothing rhymes with "orange".
@@ -27,5 +28,5 @@ Nothing rhymes with "orange".
 
 4/23/15
 
-Next week, try using: https://pypi.python.org/pypi/progressbar2
+Next week, try using: https://pypi.python.org/pypi/progressbar2?
 
