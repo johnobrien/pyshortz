@@ -108,8 +108,6 @@ class Solution(object):
         '''
         possible_answers  = set()
         actors1 = []
-        actors2 = []
-        actors3 = []
         
         if self.verbose: print("Processing names for eligibility as the first actor...")
         for actor1 in actors:
@@ -120,15 +118,9 @@ class Solution(object):
         for actor2 in actors:
             for actor1 in actors1:
                 if self.second_actor(actor1, actor2): 
-                    actors2.append(actor2)
-
-        for actor3 in actors:
-            if self.verbose: print(".", end="", flush=True)
-            for actor2 in actors2:
-                for actor1 in actors1:
-                    if self.third_actor(actor1, actor2, actor3):
-                        if self.verbose: print("!", end="", flush=True)
-                        possible_answers.add((actor1, actor2, actor3))
+                    for actor3 in actors:
+                        if self.third_actor(actor1, actor2, actor3):
+                            possible_answers.add((actor1, actor2, actor3))
 
 
         return possible_answers
