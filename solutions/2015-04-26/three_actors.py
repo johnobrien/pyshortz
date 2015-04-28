@@ -121,14 +121,9 @@ class Solution(object):
             for actor1 in actors1:
                 if self.second_actor(actor1, actor2): 
                     actors2.append(actor2)
-
-        for actor3 in actors:
-            if self.verbose: print(".", end="", flush=True)
-            for actor2 in actors2:
-                for actor1 in actors1:
-                    if self.third_actor(actor1, actor2, actor3):
-                        if self.verbose: print("!", end="", flush=True)
-                        possible_answers.add((actor1, actor2, actor3))
+                    for actor3 in actors:
+                        if self.third_actor(actor1, actor2, actor3):
+                            possible_answers.add((actor1, actor2, actor3))
         return possible_answers
 
     def __init__(self, actors, verbose=False):
@@ -148,7 +143,8 @@ class Solution(object):
 
 if __name__ == "__main__":
     print("\n"+problem)
-    # Trying to scrape movie star names from http://projects.latimes.com/hollywood/star-walk/list/
+    # From http://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Stars
+    # Maybe try to scrape movie star names from http://projects.latimes.com/hollywood/star-walk/list/
     
     #page = requests.get('http://projects.latimes.com/hollywood/star-walk/list/')
     # TODO: Leiran, I don't know much about regular expressions, but I can't get LXML or Beautiful Soup
