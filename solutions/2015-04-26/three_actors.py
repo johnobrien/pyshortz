@@ -130,6 +130,7 @@ class Solution(object):
                         if self.verbose: print("!", end="", flush=True)
                         possible_answers.add((actor1, actor2, actor3))
 
+
         return possible_answers
 
     def __init__(self, actors, verbose=False):
@@ -149,7 +150,8 @@ class Solution(object):
 
 if __name__ == "__main__":
     print("\n"+problem)
-    # Trying to scrape movie star names from http://projects.latimes.com/hollywood/star-walk/list/
+    # From http://en.wikipedia.org/wiki/AFI%27s_100_Years...100_Stars
+    # Maybe try to scrape movie star names from http://projects.latimes.com/hollywood/star-walk/list/
     
     actors = []
     page = requests.get('http://projects.latimes.com/hollywood/star-walk/list/')
