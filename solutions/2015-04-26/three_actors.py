@@ -129,6 +129,7 @@ class Solution(object):
                     if self.third_actor(actor1, actor2, actor3):
                         if self.verbose: print("!", end="", flush=True)
                         possible_answers.add((actor1, actor2, actor3))
+
         return possible_answers
 
     def __init__(self, actors, verbose=False):
@@ -150,16 +151,17 @@ if __name__ == "__main__":
     print("\n"+problem)
     # Trying to scrape movie star names from http://projects.latimes.com/hollywood/star-walk/list/
     
-    #page = requests.get('http://projects.latimes.com/hollywood/star-walk/list/')
-    # TODO: Leiran, I don't know much about regular expressions, but I can't get LXML or Beautiful Soup
-    # Or scrapy installed on my machine, so I was trying to use Regex's to get a list of actors
-    # Any ideas?
-    #urls = re.findall(r'<a href="/hollywood/star-walk/licia-albanese/">Albanese, Licia</a>', page.text)
-    #print(urls)
-    actors = {"Earnest Fleming"
-             ,"Earnest Troming"
-             ,"Killing Fletro"
-             }
+    actors = []
+    page = requests.get('http://projects.latimes.com/hollywood/star-walk/list/')
+    urls = re.findall(r'<a href="/hollywood/star-walk/.*</a>', page.text)
+    for url in urls:
+        t = re.findall('>.*<', url)
+        actor = t[0]
+        actor = actor[1:-1]
+        if actor.count(" ") == 1 and actor.count(",") == 1:
+            last, first = actor.split(",")
+            actors.append(first + " " + last)
+    
     s = Solution(actors, verbose=True)
     print("Candidates:")
     if s.possible_answers:
