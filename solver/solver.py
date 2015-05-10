@@ -10,10 +10,11 @@ class Solver(object):
     '''
 
 
-    def __init__(self):
+    def __init__(self, puzzle_text):
         '''
         Constructor
         '''
+        self.p = puzzle_text
 
     def hash(self, t):
         return("".join(sorted(t)))
