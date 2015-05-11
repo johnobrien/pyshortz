@@ -14,7 +14,7 @@ import shelve
 d = cmudict.dict()
 
 def nsyl(word):
-    return [len(list(y for y in x if y.isdigit(y[-1]))) for x in d[word.lower()]]
+    return [len(list(y for y in x if y[-1].isdigit())) for x in d[word.lower()]]
 
 def alphabetize(t):
     return("".join(sorted(t)))
@@ -29,19 +29,19 @@ else:
     for word in words.words():
         alpha = alphabetize(word)
         if alpha in anagrams:
-            anagrams[alpha].update(word)
+            anagrams[alpha].add(word)
         else:
-            anagrams[alpha] = set(word)
+            anagrams[alpha] = set([word])
     s["anagrams"] = anagrams
 s.close()
 
 class Word(str):
     def __init__(self, t):
         self.t = t
-        self.anagrams = anagrams[alphabetize[self.t]]
+        self.anagrams = anagrams[alphabetize(self.t)]
         self.reversed = self.t[::-1]
         self.alphabetized = alphabetize(self.t)
-        self.syllabes = nsyl(self.t)
+        self.syllables = nsyl(self.t)
         # self.synonyms = list of synonyms
         # self.antonyms = list of antonyms
 
