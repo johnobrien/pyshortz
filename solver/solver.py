@@ -42,6 +42,8 @@ class Word(str):
         self.reversed = self.t[::-1]
         self.alphabetized = alphabetize(self.t)
         self.syllabes = nsyl(self.t)
+        # self.synonyms = list of synonyms
+        # self.antonyms = list of antonyms
 
 class Solver(object):
     '''
