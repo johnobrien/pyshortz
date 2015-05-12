@@ -33,7 +33,6 @@ class MySolver(Solver):
         which solves the particular problem
         for each particular week.
         '''
-# Trivial change!
 
         for word in words.words():
             if len(word) == 5:
@@ -41,7 +40,7 @@ class MySolver(Solver):
 
                 for anagram in w.anagrams:
                     a = Word(anagram)
-                    if a.syllables == 3 and\
+                    if 3 in a.syllables and\
                        len(a.anagrams) >= 3:
                         self.candidates.add(a)
 
@@ -51,6 +50,6 @@ if __name__ == '__main__':
     if s.candidates:
         for candidate in s.candidates:
             print("3 Syllable Word: {0} Anagrams: {1}".format(candidate,
-                                                              candidate.anagrams))
+                                                         candidate.anagrams))
     else:
         print("No candidates were found.")

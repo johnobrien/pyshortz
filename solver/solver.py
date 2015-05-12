@@ -13,7 +13,7 @@ Let's build a list of all anagrams!
 '''
 
 
-
+d = cmudict.dict()
 
 
 def nsyl(word):
@@ -22,16 +22,16 @@ def nsyl(word):
     Keyword arguments:
     word -- a text string, which is intended to be a single word
     """
-    # From http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/
-    d = cmudict.dict()
-    syllable_count = 0
-    if word.lower() in d:
-        for x in d[word.lower()]:
-            for y in x:
-                if y[-1].isdigit():
+    # From http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/    
+    syllable_set = set()
+    if word in d:
+        for pronounciation in d[word]:
+            syllable_count = 0
+            for sound in pronounciation:
+                if sound[-1].isdigit():
                     syllable_count += 1
-
-    return syllable_count
+            syllable_set.add(syllable_count)
+    return syllable_set
 
 
 def alphabetize(word):
@@ -96,6 +96,7 @@ class Word(str):
         self.anagrams = anagrams[alphabetize(self.t)]
         self.reversed = self.t[::-1]
         self.alphabetized = alphabetize(self.t)
+        # Self.syllabes = a set where each element is a different pronounciations number of syllables
         self.syllables = nsyl(self.t)
         # self.synonyms = list of synonyms
         # self.antonyms = list of antonyms
