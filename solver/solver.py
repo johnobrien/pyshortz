@@ -19,9 +19,16 @@ def nsyl(word):
     Keyword arguments:
     word -- a text string, which is intended to be a single word
     """
-    # Code copy pasted from http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/
+    # From http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/
+    syllable_count = 0
+    if word.lower() in d:
+        for x in d[word.lower()]:
+            for y in x:
+                if y[-1].isdigit():
+                    syllable_count += 1
 
-    return [len(list(y for y in x if y[-1].isdigit())) for x in d[word.lower()]]
+    return syllable_count
+
 
 def alphabetize(word):
     """Rearranges the letters in a word to place them in alphabetical order.
@@ -44,7 +51,7 @@ The database is loaded into a dictionary called "anagrams".
 
 The keys for "anagrams" are the alphabetized, lower cased
 version of a word. The value in each database entry is the set
-of all words which have the same alphabetized version, and are 
+of all words which have the same alphabetized version, and are
 therefore anagrams of each other.
 """
 
@@ -78,16 +85,14 @@ s.close()
 class Word(str):
     """
     Word class which set's a bunch of useful attributes.
-    
     """
-    
-    
+
     def __init__(self, t):
         self.t = t
         self.anagrams = anagrams[alphabetize(self.t)]
         self.reversed = self.t[::-1]
         self.alphabetized = alphabetize(self.t)
-        self.syllables = nsyl(self.t)[0]
+        self.syllables = nsyl(self.t)
         # self.synonyms = list of synonyms
         # self.antonyms = list of antonyms
         super().__init__()

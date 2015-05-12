@@ -34,10 +34,10 @@ class MySolver(Solver):
         for each particular week.
         '''
 
-        for word in words:
-            if word.len == 5:
+        for word in words.words():
+            if len(word) == 5:
                 w = Word(word)
-                syllable_flag = []
+                syllable_flag = {}
                 syllable_flag[1] = False
                 syllable_flag[2] = False
                 syllable_flag[3] = False
@@ -54,6 +54,7 @@ class MySolver(Solver):
 
 if __name__ == '__main__':
     s = MySolver(p)
+    s.solve()
     if s.candidates:
         for candidate in s.candidates:
             print("{0}".format(candidate))
