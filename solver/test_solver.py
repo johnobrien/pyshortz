@@ -6,23 +6,31 @@ Created on May 10, 2015
 import unittest
 from solver import Word
 
+
 class TestWord(unittest.TestCase):
-
-
-    def setUp(self):
-        pass
-
     def test_how(self):
         w = Word("how")
         self.assertEqual(w.t, "how")
         self.assertEqual(w.anagrams, {"how", "who"})
         self.assertEqual(w.reversed, "woh")
         self.assertEqual(w.alphabetized, "how")
-        self.assertEqual(w.syllables, [1])
+        self.assertEqual(w.syllables, 1)
 
-    def tearDown(self):
-        pass
+    def test_listen(self):
+        w = Word("listen")
+        self.assertEqual(w.t, "listen")
+        self.assertEqual(w.anagrams, {"listen", "silent", "enlist", "tinsel"})
+        self.assertEqual(w.reversed, "netsil")
+        self.assertEqual(w.alphabetized, "eilnst")
+        self.assertEqual(w.syllables, 2)
 
+    def test_dictionary(self):
+        w = Word("dictionary")
+        self.assertEqual(w.t, "dictionary")
+        self.assertEqual(w.anagrams, {"dictionary", "indicatory"})
+        self.assertEqual(w.reversed, "yranoitcid")
+        self.assertEqual(w.alphabetized, "acdiinorty")
+        self.assertEqual(w.syllables, 4)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
