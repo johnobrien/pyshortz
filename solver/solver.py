@@ -1,3 +1,7 @@
+from nltk.corpus import words, cmudict
+import shelve
+import os
+
 '''
 Created on May 10, 2015
 
@@ -7,11 +11,10 @@ Created on May 10, 2015
 '''
 Let's build a list of all anagrams!
 '''
-import nltk
-from nltk.corpus import words, cmudict
-import shelve
+
 
 d = cmudict.dict()
+
 
 def nsyl(word):
     """Counts the number of syllables in a word.
@@ -55,8 +58,8 @@ of all words which have the same alphabetized version, and are
 therefore anagrams of each other.
 """
 
-
-s = shelve.open("solver.db")
+path = os.path.dirname(os.path.realpath(__file__))
+s = shelve.open(path + "solver.db")
 
 # Check if anagrams already exists in the database.
 if "anagrams" in s:
@@ -108,7 +111,7 @@ class Solver(object):
         Constructor
         '''
         self.p = puzzle_text
-        self.candidates = []
+        self.candidates = set()
 
     def dummy_method(self):
         '''
