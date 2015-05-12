@@ -33,6 +33,7 @@ class MySolver(Solver):
         which solves the particular problem
         for each particular week.
         '''
+# Trivial change!
 
         for word in words.words():
             if len(word) == 5:
