@@ -59,7 +59,7 @@ therefore anagrams of each other.
 """
 
 path = os.path.dirname(os.path.realpath(__file__))
-s = shelve.open(path + "solver.db")
+s = shelve.open(os.path.join(path, "solver.db"))
 
 # Check if anagrams already exists in the database.
 if "anagrams" in s:
