@@ -13,7 +13,7 @@ Let's build a list of all anagrams!
 '''
 
 
-d = cmudict.dict()
+
 
 
 def nsyl(word):
@@ -23,6 +23,7 @@ def nsyl(word):
     word -- a text string, which is intended to be a single word
     """
     # From http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/
+    d = cmudict.dict()
     syllable_count = 0
     if word.lower() in d:
         for x in d[word.lower()]:
