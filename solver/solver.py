@@ -25,9 +25,9 @@ def nsyl(word):
     # From http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/    
     syllable_set = set()
     if word in d:
-        for pronounciation in d[word]:
+        for pronunciation in d[word]:
             syllable_count = 0
-            for sound in pronounciation:
+            for sound in pronunciation:
                 if sound[-1].isdigit():
                     syllable_count += 1
             syllable_set.add(syllable_count)
@@ -59,31 +59,23 @@ of all words which have the same alphabetized version, and are
 therefore anagrams of each other.
 """
 
-path = os.path.dirname(os.path.realpath(__file__))
-s = shelve.open(os.path.join(path, "solver.db"))
 
 # Check if anagrams already exists in the database.
-if "anagrams" in s:
-    # The anagrams object was found in the solver.db!
-    anagrams = s["anagrams"]
-else:
-    # The anagrams object was NOT found in the solver.db!
-    # So let's create it!
-    anagrams = {}
-    for word in words.words():
-        alpha = alphabetize(word)
-        if alpha in anagrams:
-            # We already have an anagram for this word
-            # so add the current word to the set of anagrams
-            anagrams[alpha].add(word)
-        else:
-            # We do NOT already have an anagram for this word
-            # so let's create a new set object, starting with this word
-            anagrams[alpha] = set([word])
-    # Add the anagrams object to the database.
-    s["anagrams"] = anagrams
-# Close the database.
-s.close()
+
+# The anagrams object was NOT found in the solver.db!
+# So let's create it!
+anagrams = {}
+for word in words.words():
+    alpha = alphabetize(word)
+    if alpha in anagrams:
+        # We already have an anagram for this word
+        # so add the current word to the set of anagrams
+        anagrams[alpha].add(word)
+    else:
+        # We do NOT already have an anagram for this word
+        # so let's create a new set object, starting with this word
+        anagrams[alpha] = set([word])
+# Add the anagrams object to the database.
 
 
 class Word(str):
