@@ -60,10 +60,6 @@ therefore anagrams of each other.
 """
 
 
-# Check if anagrams already exists in the database.
-
-# The anagrams object was NOT found in the solver.db!
-# So let's create it!
 anagrams = {}
 for word in words.words():
     alpha = alphabetize(word)
@@ -75,7 +71,6 @@ for word in words.words():
         # We do NOT already have an anagram for this word
         # so let's create a new set object, starting with this word
         anagrams[alpha] = set([word])
-# Add the anagrams object to the database.
 
 
 class Word(str):
