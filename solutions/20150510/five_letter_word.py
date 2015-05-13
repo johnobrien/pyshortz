@@ -37,11 +37,20 @@ class MySolver(Solver):
         for word in words.words():
             if len(word) == 5:
                 w = Word(word)
+                syllable_flag = {}
+                syllable_flag[1] = False
+                syllable_flag[2] = False
+                syllable_flag[3] = False
 
                 for anagram in w.anagrams:
                     a = Word(anagram)
-                    if 3 in a.syllables and\
-                       len(a.anagrams) >= 3:
+                    for num_syl in (1,2,3):
+                        if num_syl in a.syllables:
+                            syllable_flag[num_syl] = True
+
+                if syllable_flag[1] == True and\
+                   syllable_flag[2] == True and\
+                   syllable_flag[3] == True:
                         self.candidates.add(a)
 
 if __name__ == '__main__':
