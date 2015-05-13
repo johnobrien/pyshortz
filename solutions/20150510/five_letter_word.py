@@ -59,6 +59,6 @@ if __name__ == '__main__':
     if s.candidates:
         for candidate in s.candidates:
             print("3 Syllable Word: {0} Anagrams: {1}".format(candidate,
-                                                         candidate.anagrams))
+                                                              candidate.anagrams))
     else:
         print("No candidates were found.")
