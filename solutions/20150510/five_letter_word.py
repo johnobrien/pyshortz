@@ -5,7 +5,8 @@ Created on May 10, 2015
 '''
 
 from nltk.corpus import words
-from solver.solver import Solver, Word
+from solver.solver import Solver
+from solver.word import Word
 
 p = '''
 Think of a common one-syllable,
