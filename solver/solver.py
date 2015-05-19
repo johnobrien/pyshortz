@@ -89,6 +89,15 @@ class Word(str):
         # self.antonyms = list of antonyms
         super().__init__()
 
+def char_filter(text, chars="aeiouy"):
+    """
+    Takes text input and a character filter (collection of characters) 
+    to be removed from the text. Default filter = "aeiouy".
+    Returns the original text input stripped of all of the characters in the filter.
+    """
+    return text.replace(chars[0], "") \
+        if len(chars) == 1 \
+        else char_filter(text.replace(chars[0], ""), chars[1:])
 
 class Solver(object):
     '''
@@ -100,6 +109,7 @@ class Solver(object):
         Constructor
         '''
         self.p = puzzle_text
+        print("Puzzle:\n"+puzzle_text)
         self.candidates = set()
 
     def dummy_method(self):
