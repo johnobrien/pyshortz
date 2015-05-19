@@ -35,3 +35,6 @@ Next week, try using: https://pypi.python.org/pypi/progressbar2?
 Maybe try to have a "solution" module which can be imported and reused, and there 
 we can stick reusable methods that we notice keep coming up
 
+5/19/15
+
+Maybe try using line_profiler to figure out whether lazy loading cmudict improves performance much.
