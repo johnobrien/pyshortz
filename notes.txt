@@ -38,3 +38,4 @@ we can stick reusable methods that we notice keep coming up
 5/19/15
 
 Maybe try using line_profiler to figure out whether lazy loading cmudict improves performance much.
+installed http://www.microsoft.com/en-us/download/details.aspx?id=44266 to try to get line_profiler working

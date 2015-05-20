@@ -6,6 +6,7 @@ Created on May 19, 2015
 
 
 from nltk.corpus import words, cmudict
+from lazy import lazy
 
 '''
 Created on May 10, 2015
@@ -18,7 +19,7 @@ Let's build a list of all anagrams!
 '''
 
 
-d = cmudict.dict()
+cmu = None
 
 
 def nsyl(word):
@@ -28,9 +29,11 @@ def nsyl(word):
     word -- a text string, which is intended to be a single word
     """
     # From http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/    
+    global cmu
+    if cmu == None: cmu = cmudict.dict()
     syllable_set = set()
-    if word in d:
-        for pronunciation in d[word]:
+    if word in cmu:
+        for pronunciation in cmu[word]:
             syllable_count = 0
             for sound in pronunciation:
                 if sound[-1].isdigit():
@@ -89,7 +92,10 @@ class Word(str):
         self.reversed = self.t[::-1]
         self.alphabetized = alphabetize(self.t)
         # Self.syllabes = a set where each element is a different pronounciations number of syllables
-        self.syllables = nsyl(self.t)
         # self.synonyms = list of synonyms
         # self.antonyms = list of antonyms
         super().__init__()
+    
+    @lazy
+    def syllables(self):
+        return nsyl(self.t)
