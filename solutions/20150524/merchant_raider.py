@@ -7,6 +7,7 @@ Created on May 24, 2015
 
 from solver.solver import Solver
 from solver.word import alphabetize
+import csv
 
 
 class MySolver(Solver):
@@ -20,16 +21,33 @@ class MySolver(Solver):
         Solving the puzzle for this week.
         '''
 
-        jobs = self.get_words(kws)
+        wordnet_jobs = self.get_words(kws)
+        self.try_list("wordnet", wordnet_jobs)
+        with open('jobs.csv', 'r') as f:
+            reader = csv.reader(f)
+            bls_jobs = list(reader)
+            self.try_list("BLS Job Titles", bls_jobs)
+
+    def try_list(self, list_name, jobs):
+        '''
+        Takes a list job titles,
+        and trys to find whether any of them together
+        match merchant raider
+        alphabetized.
+        '''
+
         anagrams = dict()
         for job1 in jobs:
             for job2 in jobs:
                 anagrams[alphabetize(job1+job2)] = [job1, job2]
-
-        print("Jobs are {0} and {1}".format(anagrams[alphabetize("merchantraider")][0],
-                                            anagrams[alphabetize("merchantraider")][1]))
+        try:
+            print("Jobs are {0} and {1}".format(anagrams[alphabetize("merchantraider")][0],
+                                                anagrams[alphabetize("merchantraider")][1]))
+        except:
+            print("{0} list do not find a match.".format(list_name))
 
         return
+        
 
 if __name__ == '__main__':
 
