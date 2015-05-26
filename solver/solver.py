@@ -16,13 +16,15 @@ class Solver(object):
     classdocs
     '''
 
-    def __init__(self, puzzle_text):
+    def __init__(self, puzzle_text, **kwargs):
         '''
         Constructor
         '''
         self.p = puzzle_text
         print("Puzzle:\n"+puzzle_text)
         self.candidates = set()
+        for k, v in kwargs.items():
+            self.__setattr__(k, v)
 
     def get_words(self, kws):
         '''
