@@ -50,7 +50,7 @@ class MySolver(Solver):
             reader = csv.reader(f)
             csv_jobs = list(reader)
             print("retrieved {0} potential entries".format(len(csv_jobs)))
-            self.try_list("both lists", wordnet_jobs.union(csv_jobs))
+            self.try_list("both lists", list(wordnet_jobs.union(csv_jobs)))
         
     def try_list(self, list_name, jobs):
         '''
