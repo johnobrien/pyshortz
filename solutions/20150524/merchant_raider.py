@@ -34,8 +34,23 @@ class MySolver(Solver):
         with open(filename, 'r') as f:
             reader = csv.reader(f)
             csv_jobs = list(reader)
+            print("retrieved {0} potential entries".format(len(csv_jobs)))
             self.try_list("User supplied job list", csv_jobs)
 
+    def solve_with_both(self, filename, kws):
+        '''
+        Solving the puzzle for this week using both a preloaded file of jobs and nltk
+        '''
+        print("accessing nltk with keyword list:")
+        for keyword in kws:
+            print("    {0}".format(keyword))
+        wordnet_jobs = self.get_words(kws)
+        print("retrieved {0} potential entries".format(len(wordnet_jobs)))
+        with open(filename, 'r') as f:
+            reader = csv.reader(f)
+            csv_jobs = list(reader)
+            print("retrieved {0} potential entries".format(len(csv_jobs)))
+            self.try_list("both lists", wordnet_jobs.union(csv_jobs))
         
     def try_list(self, list_name, jobs):
         '''
@@ -81,7 +96,10 @@ if __name__ == '__main__':
            "exuctive" ,
            "operator" ,
            "employee" ,
-           "who"
+           "who" ,
+           "official" ,
+           "writer" ,
+           "a female" 
            ]
 
     p = '''Take the phrase "merchant raider." A merchant raider was a vessel in
@@ -90,5 +108,6 @@ letters of "merchant raider" to get two well-known professions. What are
 they?'''
 
     s = MySolver(p, word="merchantraider")
-    s.solve_with_nltk(kws)
-    s.solve_with_csv('jobs.csv')
+    #s.solve_with_nltk(kws)
+    #s.solve_with_csv('jobs.csv')
+    s.solve_with_both("jobs.csv", kws)
