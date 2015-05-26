@@ -27,7 +27,11 @@ class MySolver(Solver):
             reader = csv.reader(f)
             bls_jobs = list(reader)
             self.try_list("BLS Job Titles", bls_jobs)
+        ### How about we try finding a word that is in the letters merchantraiders
+        ### removing those letters, and for whatever remains, trying to find another
+        ### word that works?
 
+        
     def try_list(self, list_name, jobs):
         '''
         Takes a list job titles,
