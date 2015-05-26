@@ -1,3 +1,5 @@
+from nltk.corpus import words, wordnet
+
 
 def char_filter(text, chars="aeiouy"):
     """
@@ -22,8 +24,18 @@ class Solver(object):
         print("Puzzle:\n"+puzzle_text)
         self.candidates = set()
 
-    def dummy_method(self):
+    def get_words(self, kws):
         '''
-        To test that my import is working.
+        A method to create a set of words
+        from the Wordnet corpus
+        where any of a list of keywords are somewhere in the defintion.
         '''
-        return "It's working!"
+
+        wordlist = set()
+        for word in words.words():
+            synset = wordnet.synsets(word)
+            for syn in synset:
+                if any([kw.lower() in syn.definition().lower() for kw in kws]):
+                    wordlist.add(syn.name().split(".")[0].lower())
+
+        return wordlist

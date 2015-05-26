@@ -95,7 +95,7 @@ class Word(str):
         # self.synonyms = list of synonyms
         # self.antonyms = list of antonyms
         super().__init__()
-    
+
     @lazy
     def syllables(self):
         return nsyl(self.t)
