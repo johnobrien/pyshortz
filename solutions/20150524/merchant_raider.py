@@ -76,7 +76,12 @@ if __name__ == '__main__':
            "a man",
            "a woman",
            "duty",
-           "duties"
+           "duties" ,
+           "officer" ,
+           "exuctive" ,
+           "operator" ,
+           "employee" ,
+           "who"
            ]
 
     p = '''Take the phrase "merchant raider." A merchant raider was a vessel in
