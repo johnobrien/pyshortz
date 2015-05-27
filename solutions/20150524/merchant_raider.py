@@ -1,7 +1,7 @@
 '''
 Created on May 24, 2015
 
-@author: johno_000
+@author: john o'brien and leiran biton
 '''
 
 import csv
@@ -22,12 +22,18 @@ class MySolver(Solver):
         and trys to find whether any of them together
         match merchant raider alphabetized.
         '''
-        print("generating anagrams")
-        anagrams = build_anagrams(jobs)
+        if self.__dict__.get("verbose", False): 
+            print("generating anagrams")
+        self.anagrams = build_anagrams(jobs)
         for job in jobs:
-            remaining_letters = alphabetize(char_filter(self.word, job, 1))
-            if remaining_letters in anagrams:
-                [self.candidates.add((job, second_job)) for second_job in anagrams[remaining_letters]]
+            try:
+                remaining_letters = alphabetize(char_filter(self.word, job, 1))
+                if remaining_letters in self.anagrams:
+                    for second_job in self.anagrams[remaining_letters]:
+                        if ((job, second_job) not in self.candidates and (second_job, job) not in self.candidates):
+                            self.candidates.add((job, second_job))
+            except AssertionError:
+                pass
         if self.__dict__.get("verbose", False): self.get_candidates()
         
     def get_candidates(self):
@@ -78,6 +84,11 @@ if __name__ == '__main__':
     # Really? Leiran, I appreciate that you like ,"blah" more than "blah",
     # But is there a specific benefit? Because if not, Pydev throws up all
     # this and it triggers a dozen or so format warning errors.
+    
+    # Format errors about what? 
+    # PyDev doesn't like __name__ == __main__? Or something else?
+    # I like __name__ == __main__ for testing, but I think we should probably
+    # move away from it for actual results generation.
     kws = ["occupation"
           ,"job"
           ,"someone"
@@ -101,6 +112,9 @@ World War I and World War II that targeted enemy merchant ships. Rearrange the
 letters of "merchant raider" to get two well-known professions. What are
 they?'''
 
+    s = MySolver(p, word="blosserfakers", verbose=False)
+    s.try_list("testing", ["baker", "flosser", "flossers", "bakers"])
+
     s = MySolver(p, word="merchantraider", verbose=True)
     #Try NLTK
     print("accessing nltk with keyword list:")
@@ -109,14 +123,14 @@ they?'''
     wordnet_jobs = s.get_words(kws)
     print("retrieved {0} potential entries".format(len(wordnet_jobs)))
     s.try_list("wordnet", wordnet_jobs)
-    s.clear_candidates()
-    #Try user supplied list
-    filename = "jobs.csv"
-    with open(filename, 'r') as f:
-        reader = csv.reader(f)
-        csv_jobs = [job[0] for job in list(reader)]
-        print("retrieved {0} potential entries".format(len(csv_jobs)))
-        s.try_list("User supplied job list", csv_jobs)
+#     s.clear_candidates()
+#     #Try user supplied list
+#     filename = "jobs.csv"
+#     with open(filename, 'r') as f:
+#         reader = csv.reader(f)
+#         csv_jobs = [job[0] for job in list(reader)]
+#         print("retrieved {0} potential entries".format(len(csv_jobs)))
+#         s.try_list("User supplied job list", csv_jobs)
 #     #Try with both
 #     print("Trying with both")
 #     s.try_list("both lists", wordnet_jobs + csv_jobs)

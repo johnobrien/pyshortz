@@ -12,7 +12,10 @@ def char_filter(text, chars="aeiouy", count=None):
         if count == None:
             result = result.replace(letter, "")
         else:
-            result = result.replace(letter, "", count)
+            if result.replace(letter, "", count) == result:
+                raise AssertionError("Character '{0}' is not in '{1}'.".format(letter, text))
+            else:
+                result = result.replace(letter, "", count)
     return result
 
 class Solver(object):
