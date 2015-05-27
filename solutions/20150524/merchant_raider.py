@@ -45,16 +45,8 @@ class MySolver(Solver):
 
 if __name__ == '__main__':
 
-    # Really? Leiran, I appreciate that you like ,"blah" more than "blah",
-    # But is there a specific benefit? Because if not, Pydev throws up all
-    # this and it triggers a dozen or so format warning errors.
-    
-    # Format errors about what? 
-    # PyDev doesn't like __name__ == __main__? Or something else?
-    # I like __name__ == __main__ for testing, but I think we should probably
-    # move away from it for actual results generation.
     kws = ["occupation"
-          ,"job"
+          ,"job" # <=== I meant this ,"job" versus "job", ...
           ,"someone"
           ,"person"
           ,"a man"
