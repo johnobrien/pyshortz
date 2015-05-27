@@ -7,14 +7,13 @@ def char_filter(text, chars="aeiouy", count=None):
     to be removed from the text. Default filter = "aeiouy".
     Returns the original text input stripped of all of the characters in the filter.
     """
-    if count == None:
-        return text.replace(chars, "") \
-            if len(chars) == 1 \
-            else char_filter(text.replace(chars[0], ""), chars[1:])
-    else:
-        return text.replace(chars, "", count) \
-            if len(chars) == 1 \
-            else char_filter(text.replace(chars[0], "", count), chars[1:])
+    result = text
+    for letter in chars:
+        if count == None:
+            result = result.replace(letter, "")
+        else:
+            result = result.replace(letter, "", count)
+    return result
 
 class Solver(object):
     '''
