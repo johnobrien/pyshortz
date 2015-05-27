@@ -4,10 +4,10 @@ Created on May 24, 2015
 @author: johno_000
 '''
 
-
-from solver.solver import Solver
-from solver.word import alphabetize
 import csv
+from nltk.corpus import words
+from solver.solver import Solver, char_filter
+from solver.word import alphabetize
 
 
 class MySolver(Solver):
@@ -15,42 +15,6 @@ class MySolver(Solver):
     MySolver is an example solver
     which is a child of the solver class.
     '''
-    
-    def solve_with_nltk(self, kws):
-        '''
-        Solving the puzzle for this week using nltk.
-        '''
-        print("accessing nltk with keyword list:")
-        for keyword in kws:
-            print("    {0}".format(keyword))
-        wordnet_jobs = self.get_words(kws)
-        print("retrieved {0} potential entries".format(len(wordnet_jobs)))
-        self.try_list("wordnet", wordnet_jobs)
-
-    def solve_with_csv(self, filename):
-        '''
-        Solving the puzzle for this week using a preloaded file of jobs.
-        '''
-        with open(filename, 'r') as f:
-            reader = csv.reader(f)
-            csv_jobs = list(reader)
-            print("retrieved {0} potential entries".format(len(csv_jobs)))
-            self.try_list("User supplied job list", csv_jobs)
-
-    def solve_with_both(self, filename, kws):
-        '''
-        Solving the puzzle for this week using both a preloaded file of jobs and nltk
-        '''
-        print("accessing nltk with keyword list:")
-        for keyword in kws:
-            print("    {0}".format(keyword))
-        wordnet_jobs = self.get_words(kws)
-        print("retrieved {0} potential entries".format(len(wordnet_jobs)))
-        with open(filename, 'r') as f:
-            reader = csv.reader(f)
-            csv_jobs = list(reader)
-            print("retrieved {0} potential entries".format(len(csv_jobs)))
-            self.try_list("both lists", list(wordnet_jobs) + csv_jobs)
         
     def try_list(self, list_name, jobs):
         '''
@@ -60,27 +24,53 @@ class MySolver(Solver):
         '''
         print("generating anagrams")
         anagrams = dict()
-        alpha_list = [alphabetize(job) for job in jobs]
         for job1 in jobs:
-            remaining_letters = self.word
-            for letter in job1:
-                try:
-                    letter_index = remaining_letters.index(letter)
-                except ValueError:
-                    break
-                    remaining_letters = remaining_letters[:letter_index] \
-                                      + remaining_letters[letter_index+1:]
-            if alphabetize(remaining_letters) in alpha_list:
-                job2 = jobs[alpha_list.index(alphabetize(remaining_letters))]
+            for job2 in jobs:
                 anagrams[alphabetize(job1+job2)] = [job1, job2]
-        try:
-            print("Jobs are {0} and {1}".format(anagrams[self.word.alphebatized][0],
-                                                anagrams[self.word.alphebatized][1]))
-        except:
+        if alphabetize("merchantraider") in anagrams:
+            print("Jobs are {0} and {1}".format(anagrams[alphabetize("merchantraider")][0],
+                                                anagrams[alphabetize("merchantraider")][1]))
+        else:
             print("{0} list do not find a match.".format(list_name))
 
         return
         
+    def try_wordy_words(self, words):
+        '''
+        For all words, first remove one word from
+        merchant raider, and then see if
+        the alphbetized version of what remains
+        matches any other word.
+        '''
+        for word1 in words:
+            if len(word1) >= 2:
+                mr = self.word
+                word1_in_mr = True
+                for letter in word1:
+                    if letter in mr:
+                        # remove the letter we found
+                        mr = char_filter(mr, letter, 1)
+                    else:
+                        # we didn't find this letter, so we don't have a match
+                        word1_in_mr = False
+                
+                if word1_in_mr:
+                    for word2 in words:
+                        if len(word2) >= 2:
+                            remainder = mr
+                            word2_in_remainder = True
+                            for letter in word2:
+                                if letter in remainder:
+                                    # remove the letter we found
+                                    remainder = char_filter(remainder, letter, 1)
+                                else:
+                                    word2_in_remainder = False
+                            
+                            if word2_in_remainder and remainder == "":
+                                print("One possible match is {0} and {1}".format(word1, word2))
+
+
+                    
 
 if __name__ == '__main__':
 
@@ -108,6 +98,24 @@ letters of "merchant raider" to get two well-known professions. What are
 they?'''
 
     s = MySolver(p, word="merchantraider")
-    #s.solve_with_nltk(kws)
-    #s.solve_with_csv('jobs.csv')
-    s.solve_with_both("jobs.csv", kws)
+#     #Try NLTK
+#     print("accessing nltk with keyword list:")
+#     for keyword in kws:
+#         print("    {0}".format(keyword))
+#     wordnet_jobs = s.get_words(kws)
+#     print("retrieved {0} potential entries".format(len(wordnet_jobs)))
+#     s.try_list("wordnet", wordnet_jobs)
+#     #Try user supplied list
+#     with open(filename, 'r') as f:
+#         reader = csv.reader(f)
+#         csv_jobs = list(reader)
+#         print("retrieved {0} potential entries".format(len(csv_jobs)))
+#         s.try_list("User supplied job list", csv_jobs)
+#     #Try with both
+#     print("Trying with both")
+#     s.try_list("both lists", wordnet_jobs + csv_jobs)
+#     #Try using all wordnet words
+    words = words.words()
+    words.append("trader")
+    words.append("teacher")
+    s.try_wordy_words(words)

@@ -1,13 +1,13 @@
 from nltk.corpus import words, wordnet
 
 
-def char_filter(text, chars="aeiouy"):
+def char_filter(text, chars="aeiouy", count=None):
     """
     Takes text input and a character filter (collection of characters) 
     to be removed from the text. Default filter = "aeiouy".
     Returns the original text input stripped of all of the characters in the filter.
     """
-    return text.replace(chars[0], "") \
+    return text.replace(chars[0], "", count) \
         if len(chars) == 1 \
         else char_filter(text.replace(chars[0], ""), chars[1:])
 
