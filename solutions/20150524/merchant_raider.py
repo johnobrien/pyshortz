@@ -112,26 +112,40 @@ World War I and World War II that targeted enemy merchant ships. Rearrange the
 letters of "merchant raider" to get two well-known professions. What are
 they?'''
 
+    # quiet testing
     s = MySolver(p, word="blosserfakers", verbose=False)
     s.try_list("testing", ["baker", "flosser", "flossers", "bakers"])
-
-    s = MySolver(p, word="merchantraider", verbose=True)
+    
     #Try NLTK
+    s = MySolver(p, word="merchantraider", verbose=True)
     print("accessing nltk with keyword list:")
-    for keyword in kws:
-        print("    {0}".format(keyword))
+    for kw in kws:
+        print("    {0}".format(kw))
     wordnet_jobs = s.get_words(kws)
     print("retrieved {0} potential entries".format(len(wordnet_jobs)))
     s.try_list("wordnet", wordnet_jobs)
-#     s.clear_candidates()
-#     #Try user supplied list
-#     filename = "jobs.csv"
-#     with open(filename, 'r') as f:
-#         reader = csv.reader(f)
-#         csv_jobs = [job[0] for job in list(reader)]
-#         print("retrieved {0} potential entries".format(len(csv_jobs)))
-#         s.try_list("User supplied job list", csv_jobs)
-#     #Try with both
+    s.clear_candidates()
+    
+    print("populating list of words with letters that appear in 'merchant traider':")
+    words = words.words()
+    try_words = set()
+    for word in words:
+        try:
+            remaining_word = char_filter(s.word, word, 1)
+            try_words.add(word)
+        except AssertionError:
+            pass
+    print("retrieved {0} potential entries".format(len(try_words)))
+    s.try_list("all words with right letters", try_words)
+    
+    # try BLM list
+    filename = "jobs.csv"
+    with open(filename, 'r') as f:
+        reader = csv.reader(f)
+        csv_jobs = [job[0] for job in list(reader)]
+        print("retrieved {0} potential entries".format(len(csv_jobs)))
+        s.try_list("User supplied job list", csv_jobs)
+    #Try with both
 #     print("Trying with both")
 #     s.try_list("both lists", wordnet_jobs + csv_jobs)
 #     #Try using all wordnet words
