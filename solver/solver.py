@@ -8,11 +8,11 @@ def char_filter(text, chars="aeiouy", count=None):
     Returns the original text input stripped of all of the characters in the filter.
     """
     if count == None:
-        return text.replace(chars[0], "") \
+        return text.replace(chars, "") \
             if len(chars) == 1 \
             else char_filter(text.replace(chars[0], ""), chars[1:])
     else:
-        return text.replace(chars[0], "", count) \
+        return text.replace(chars, "", count) \
             if len(chars) == 1 \
             else char_filter(text.replace(chars[0], "", count), chars[1:])
 
@@ -50,3 +50,27 @@ class Solver(object):
                     wordlist.add(syn.name().split(".")[0].lower())
 
         return wordlist
+
+if __name__ == "__main__":
+    import unittest
+    #from solver import Solver, char_filter
+    
+    vowels = "aeiou"
+    class TestWord(unittest.TestCase):
+        def test_vowels(self):
+            self.assertEqual(char_filter("christmas", vowels), "chrstms")
+        def test_butterfly(self):
+            self.assertEqual(char_filter("butterfly", "t"), "buerfly")
+        def test_single_filter(self):
+            self.assertEqual(char_filter("butterstick", "t", 1), "buterstick")
+            self.assertEqual(char_filter("butterstick", "t", 2), "buerstick")
+            self.assertEqual(char_filter("butterstick", "t", 3), "buersick")
+        def test_multiple_filter(self):
+            self.assertEqual(char_filter("mississippi", "is"), "mpp")
+            self.assertEqual(char_filter("mississippi", "is", 1), "msissippi")
+            self.assertEqual(char_filter("mississippi", "is", 2), "mssippi")
+            self.assertEqual(char_filter("mississippi", "is", 3), "msppi")
+        def test_count(self):
+            self.assertEqual(char_filter("basement", vowels, 1), "bsment")
+    
+    unittest.main()
