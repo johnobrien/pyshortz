@@ -42,42 +42,6 @@ class MySolver(Solver):
         for job1, job2 in self.candidates:
             print("    {0} {1}".format(job1, job2))
     
-    def try_wordy_words(self, words):
-        '''
-        For all words, first remove one word from
-        merchant raider, and then see if
-        the alphbetized version of what remains
-        matches any other word.
-        '''
-        for word1 in words:
-            if len(word1) >= 2:
-                mr = self.word
-                word1_in_mr = True
-                for letter in word1:
-                    if letter in mr:
-                        # remove the letter we found
-                        mr = char_filter(mr, letter, 1)
-                    else:
-                        # we didn't find this letter, so we don't have a match
-                        word1_in_mr = False
-                
-                if word1_in_mr:
-                    for word2 in words:
-                        if len(word2) >= 2:
-                            remainder = mr
-                            word2_in_remainder = True
-                            for letter in word2:
-                                if letter in remainder:
-                                    # remove the letter we found
-                                    remainder = char_filter(remainder, letter, 1)
-                                else:
-                                    word2_in_remainder = False
-                            
-                            if word2_in_remainder and remainder == "":
-                                print("One possible match is {0} and {1}".format(word1, word2))
-
-
-                    
 
 if __name__ == '__main__':
 
@@ -145,11 +109,3 @@ they?'''
         csv_jobs = [job[0] for job in list(reader)]
         print("retrieved {0} potential entries".format(len(csv_jobs)))
         s.try_list("User supplied job list", csv_jobs)
-    #Try with both
-#     print("Trying with both")
-#     s.try_list("both lists", wordnet_jobs + csv_jobs)
-#     #Try using all wordnet words
-#     words = words.words()
-#     words.append("trader")
-#     words.append("teacher")
-#     s.try_wordy_words(words)
