@@ -1,13 +1,13 @@
 '''
 Created on May 24, 2015
 
-@author: johno_000
+@author: leiran biton, john o'brien
 '''
 
 import csv
 from nltk.corpus import words
-from solver.solver import Solver, char_filter
-from solver.word import alphabetize, build_anagrams
+from solver import Solver, char_filter  # pylint: disable-msg=E0611
+from word import alphabetize, build_anagrams  # pylint: disable-msg=E0611
 
 
 class MySolver(Solver):
@@ -15,7 +15,7 @@ class MySolver(Solver):
     MySolver is an example solver
     which is a child of the solver class.
     '''
-        
+
     def try_list(self, list_name, jobs):
         '''
         Takes a list job titles,
@@ -28,14 +28,15 @@ class MySolver(Solver):
             remaining_letters = alphabetize(char_filter(self.word, job, 1))
             if remaining_letters in anagrams:
                 [self.candidates.add((job, second_job)) for second_job in anagrams[remaining_letters]]
-        if self.__dict__.get("verbose", False): self.get_candidates()
-        
+        if self.__dict__.get("verbose", False):
+            self.get_candidates()
+
     def get_candidates(self):
         """prints the current list of candidates"""
         print("current candidates:")
         for job1, job2 in self.candidates:
             print("    {0} {1}".format(job1, job2))
-    
+
     def try_wordy_words(self, words):
         '''
         For all words, first remove one word from
@@ -54,7 +55,7 @@ class MySolver(Solver):
                     else:
                         # we didn't find this letter, so we don't have a match
                         word1_in_mr = False
-                
+
                 if word1_in_mr:
                     for word2 in words:
                         if len(word2) >= 2:
@@ -66,18 +67,17 @@ class MySolver(Solver):
                                     remainder = char_filter(remainder, letter, 1)
                                 else:
                                     word2_in_remainder = False
-                            
+
                             if word2_in_remainder and remainder == "":
                                 print("One possible match is {0} and {1}".format(word1, word2))
 
 
-                    
-
 if __name__ == '__main__':
 
-    # Really? Leiran, I appreciate that you like ,"blah" more than "blah",
-    # But is there a specific benefit? Because if not, Pydev throws up all
-    # this and it triggers a dozen or so format warning errors.
+    # I appreciate that you like ,"blah" more than "blah",
+    # but is there a specific benefit? Because if not, Pydev throws up all
+    # this and it triggers a dozen or so format warning errors...
+
     kws = ["occupation"
           ,"job"
           ,"someone"
@@ -102,7 +102,7 @@ letters of "merchant raider" to get two well-known professions. What are
 they?'''
 
     s = MySolver(p, word="merchantraider", verbose=True)
-    #Try NLTK
+    # Try NLTK
     print("accessing nltk with keyword list:")
     for keyword in kws:
         print("    {0}".format(keyword))
@@ -110,17 +110,17 @@ they?'''
     print("retrieved {0} potential entries".format(len(wordnet_jobs)))
     s.try_list("wordnet", wordnet_jobs)
     s.clear_candidates()
-    #Try user supplied list
+    # Try user supplied list
     filename = "jobs.csv"
     with open(filename, 'r') as f:
         reader = csv.reader(f)
         csv_jobs = [job[0] for job in list(reader)]
         print("retrieved {0} potential entries".format(len(csv_jobs)))
         s.try_list("User supplied job list", csv_jobs)
-#     #Try with both
+#     # Try with both
 #     print("Trying with both")
 #     s.try_list("both lists", wordnet_jobs + csv_jobs)
-#     #Try using all wordnet words
+#     # Try using all wordnet words
 #     words = words.words()
 #     words.append("trader")
 #     words.append("teacher")
