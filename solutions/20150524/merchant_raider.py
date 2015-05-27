@@ -75,6 +75,9 @@ class MySolver(Solver):
 
 if __name__ == '__main__':
 
+    # Really? Leiran, I appreciate that you like ,"blah" more than "blah",
+    # But is there a specific benefit? Because if not, Pydev throws up all
+    # this and it triggers a dozen or so format warning errors.
     kws = ["occupation"
           ,"job"
           ,"someone"

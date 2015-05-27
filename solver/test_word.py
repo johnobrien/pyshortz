@@ -4,7 +4,7 @@ Created on May 10, 2015
 @authors: john o'brien, leiran biton
 '''
 import unittest
-from word import Word
+from solver.word import Word
 
 
 class TestWord(unittest.TestCase):

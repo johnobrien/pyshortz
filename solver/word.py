@@ -28,9 +28,10 @@ def nsyl(word):
     Keyword arguments:
     word -- a text string, which is intended to be a single word
     """
-    # From http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/    
+    # From http://www.onebloke.com/2011/06/counting-syllables-accurately-in-python-on-google-app-engine/    @IgnorePep8
     global cmu
-    if cmu == None: cmu = cmudict.dict()
+    if cmu is None:
+        cmu = cmudict.dict()  # @UndefinedVariable
     syllable_set = set()
     if word in cmu:
         for pronunciation in cmu[word]:
