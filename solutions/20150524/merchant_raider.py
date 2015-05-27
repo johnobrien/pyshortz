@@ -45,23 +45,27 @@ class MySolver(Solver):
 
 if __name__ == '__main__':
 
-    kws = ["occupation"
-          ,"job" # <=== I meant this ,"job" versus "job", ...
-          ,"someone"
-          ,"person"
-          ,"a man"
-          ,"a woman"
-          ,"duty"
-          ,"duties"
-          ,"officer"
-          ,"exuctive"
-          ,"operator"
-          ,"employee"
-          ,"who"
-          ,"official"
-          ,"writer"
-          ,"a female" 
+    kws = ["occupation",
+           "job",
+           "someone",
+           "person",
+           "a man",
+           "a woman",
+           "duty",
+           "duties",
+           "officer",
+           "exuctive",
+           "operator",
+           "employee",
+           "who",
+           "official",
+           "writer",
+           "a female" 
            ]
+    # I don't really care, but it was easier for me to add/remove items from the list with the comma at front.
+    # In particular, the last item in the list, where I'm often tinkering, can be ",item" without problem but
+    # must be treated specially (i.e., without the trailing comma) if using trailing commas, so "item" rather than "item,"
+    # If pydev doesn't like it, I will succumb to the greater python gods.
 
     p = '''Take the phrase "merchant raider." A merchant raider was a vessel in
 World War I and World War II that targeted enemy merchant ships. Rearrange the
