@@ -8,7 +8,7 @@ import csv
 from nltk.corpus import words
 from solver.solver import Solver, char_filter
 from solver.word import alphabetize, build_anagrams
-
+from string import punctuation
 
 class MySolver(Solver):
     '''
@@ -45,6 +45,18 @@ class MySolver(Solver):
 
 if __name__ == '__main__':
 
+    p = '''Take the phrase "merchant raider." A merchant raider was a vessel in
+World War I and World War II that targeted enemy merchant ships. Rearrange the
+letters of "merchant raider" to get two well-known professions. What are
+they?'''
+
+    # quiet testing
+    s = MySolver(p, word="blosserfakers", verbose=False)
+    s.try_list("testing", ["baker", "flosser", "flossers", "bakers"])
+    
+    #Try NLTK
+    s = MySolver(p, word="merchantraider", verbose=False)
+    print("accessing nltk with keyword list:")
     kws = ["occupation",
            "job",
            "someone",
@@ -62,46 +74,33 @@ if __name__ == '__main__':
            "writer",
            "a female" 
            ]
-    # I don't really care, but it was easier for me to add/remove items from the list with the comma at front.
-    # In particular, the last item in the list, where I'm often tinkering, can be ",item" without problem but
-    # must be treated specially (i.e., without the trailing comma) if using trailing commas, so "item" rather than "item,"
-    # If pydev doesn't like it, I will succumb to the greater python gods.
-
-    p = '''Take the phrase "merchant raider." A merchant raider was a vessel in
-World War I and World War II that targeted enemy merchant ships. Rearrange the
-letters of "merchant raider" to get two well-known professions. What are
-they?'''
-
-    # quiet testing
-    s = MySolver(p, word="blosserfakers", verbose=False)
-    s.try_list("testing", ["baker", "flosser", "flossers", "bakers"])
-    
-    #Try NLTK
-    s = MySolver(p, word="merchantraider", verbose=True)
-    print("accessing nltk with keyword list:")
     for kw in kws:
         print("    {0}".format(kw))
-    wordnet_jobs = s.get_words(kws)
+    unfiltered_wordnet_jobs = s.get_words(kws)
+    wordnet_jobs = [char_filter(job, punctuation+" ") for job in unfiltered_wordnet_jobs]
+    job_dict = dict(zip(wordnet_jobs, unfiltered_wordnet_jobs))
     print("retrieved {0} potential entries".format(len(wordnet_jobs)))
     s.try_list("wordnet", wordnet_jobs)
-    s.clear_candidates()
-    
-    print("populating list of words with letters that appear in 'merchant traider':")
-    words = words.words()
-    try_words = set()
-    for word in words:
-        try:
-            remaining_word = char_filter(s.word, word, 1)
-            try_words.add(word)
-        except AssertionError:
-            pass
-    print("retrieved {0} potential entries".format(len(try_words)))
-    s.try_list("all words with right letters", try_words)
-    
-    # try BLM list
-    filename = "jobs.csv"
-    with open(filename, 'r') as f:
-        reader = csv.reader(f)
-        csv_jobs = [job[0] for job in list(reader)]
-        print("retrieved {0} potential entries".format(len(csv_jobs)))
-        s.try_list("User supplied job list", csv_jobs)
+    for job1, job2 in s.candidates:
+        print(job_dict[job1], job_dict[job2])
+#     s.clear_candidates()
+#     
+#     print("populating list of words with letters that appear in 'merchant traider':")
+#     words = words.words()
+#     try_words = set()
+#     for word in words:
+#         try:
+#             remaining_word = char_filter(s.word, word, 1)
+#             try_words.add(word)
+#         except AssertionError:
+#             pass
+#     print("retrieved {0} potential entries".format(len(try_words)))
+#     s.try_list("all words with right letters", try_words)
+#     
+#     # try BLM list
+#     filename = "jobs.csv"
+#     with open(filename, 'r') as f:
+#         reader = csv.reader(f)
+#         csv_jobs = [job[0] for job in list(reader)]
+#         print("retrieved {0} potential entries".format(len(csv_jobs)))
+#         s.try_list("User supplied job list", csv_jobs)

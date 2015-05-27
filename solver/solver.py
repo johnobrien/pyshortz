@@ -45,10 +45,13 @@ class Solver(object):
         '''
 
         wordlist = set()
-        for word in words.words():
+        lemmas  = [lemma_name for lemma_name in wordnet.all_lemma_names()]
+        synsets = [syn.name()[:syn.name().index(".")] for syn in wordnet.all_synsets()]
+        for word in words.words() + synsets + lemmas:
             synset = wordnet.synsets(word)
             for syn in synset:
                 if any([kw.lower() in syn.definition().lower() for kw in kws]):
+                    wordlist.add(word)
                     wordlist.add(syn.name().split(".")[0].lower())
 
         return wordlist
