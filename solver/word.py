@@ -50,36 +50,39 @@ def alphabetize(word):
     """
     return("".join(sorted(word)).lower())
 
-"""
-Anagrams database.
 
-Since anagrams are computationally intensive to calculate,
-we calculate it once, and then store it.
+def build_anagrams(word_list):
+    """
+    Anagrams database.
 
-For future calls, we load the database use it to get anagrams
-for words.
+    Since anagrams are computationally intensive to calculate,
+    we calculate it once, and then store it.
 
-The database is loaded into a dictionary called "anagrams".
+    For future calls, we load the database use it to get anagrams
+    for words.
 
-The keys for "anagrams" are the alphabetized, lower cased
-version of a word. The value in each database entry is the set
-of all words which have the same alphabetized version, and are
-therefore anagrams of each other.
-"""
+    The database is loaded into a dictionary called "anagrams".
 
+    The keys for "anagrams" are the alphabetized, lower cased
+    version of a word. The value in each database entry is the set
+    of all words which have the same alphabetized version, and are
+    therefore anagrams of each other.
+    """
+    anagrams = {}
+    for word in word_list:
+        alpha = alphabetize(word)
+        if alpha in anagrams:
+            # We already have an anagram for this word
+            # so add the current word to the set of anagrams
+            anagrams[alpha].add(word)
+        else:
+            # We do NOT already have an anagram for this word
+            # so let's create a new set object, starting with this word
+            anagrams[alpha] = set([word])
+    return anagrams
 
-anagrams = {}
-for word in words.words():
-    alpha = alphabetize(word)
-    if alpha in anagrams:
-        # We already have an anagram for this word
-        # so add the current word to the set of anagrams
-        anagrams[alpha].add(word)
-    else:
-        # We do NOT already have an anagram for this word
-        # so let's create a new set object, starting with this word
-        anagrams[alpha] = set([word])
-
+# build anagrams with full word list
+anagrams = build_anagrams(words.words())
 
 class Word(str):
     """

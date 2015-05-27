@@ -7,9 +7,14 @@ def char_filter(text, chars="aeiouy", count=None):
     to be removed from the text. Default filter = "aeiouy".
     Returns the original text input stripped of all of the characters in the filter.
     """
-    return text.replace(chars[0], "", count) \
-        if len(chars) == 1 \
-        else char_filter(text.replace(chars[0], ""), chars[1:])
+    if count == None:
+        return text.replace(chars[0], "") \
+            if len(chars) == 1 \
+            else char_filter(text.replace(chars[0], ""), chars[1:])
+    else:
+        return text.replace(chars[0], "", count) \
+            if len(chars) == 1 \
+            else char_filter(text.replace(chars[0], "", count), chars[1:])
 
 class Solver(object):
     '''
@@ -26,6 +31,10 @@ class Solver(object):
         for k, v in kwargs.items():
             self.__setattr__(k, v)
 
+    def clear_candidates(self):
+        """a method to clear the candidates list"""
+        self.candidates = set()
+    
     def get_words(self, kws):
         '''
         A method to create a set of words
