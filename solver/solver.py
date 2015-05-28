@@ -1,5 +1,8 @@
 from nltk.corpus import words, wordnet
 
+# a little easy to use lookup tool for on-the-fly use
+def lookup(word):
+    [print("{0}) {1}: {2}".format(i+1, a.name(), a.definition())) for i, a in enumerate(wordnet.synsets(word))]
 
 def char_filter(text, chars="aeiouy", count=None):
     """
