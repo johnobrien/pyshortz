@@ -1,4 +1,5 @@
 from nltk.corpus import words, wordnet
+import requests                                                                                                                                                                                                    
 
 # a little easy to use lookup tool for on-the-fly use
 def lookup(word):
@@ -58,6 +59,36 @@ class Solver(object):
                     wordlist.add(syn.name().split(".")[0].lower())
 
         return wordlist
+
+
+def googlesearch(searchfor):                                                                                                                                                                                       
+    '''
+    Searches google
+    using the requests library
+    
+    returns a requests.response object
+    '''
+    link = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % searchfor                                                                                                                              
+    ua = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36'}                                                                
+    payload = {'q': searchfor}                                                                                                                                                                                     
+    response = requests.get(link, headers=ua, params=payload)                                                                                                                                                      
+    return response
+
+
+def ghits(searchfor):
+    '''
+    Searches google
+    
+    then parses the response to just
+    return the approximate number of hits.
+    '''
+    
+    response = googlesearch(searchfor)
+    # here we parse the response to get the approximate
+    # number of hits, and return that
+    # for now hard code to 100
+    return 100
+
 
 if __name__ == "__main__":
     import unittest

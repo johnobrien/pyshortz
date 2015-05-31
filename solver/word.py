@@ -8,15 +8,6 @@ Created on May 19, 2015
 from nltk.corpus import words, cmudict
 from lazy import lazy
 
-'''
-Created on May 10, 2015
-
-@author: johno_000
-'''
-
-'''
-Let's build a list of all anagrams!
-'''
 
 
 cmu = None
@@ -54,15 +45,6 @@ def alphabetize(word):
 
 def build_anagrams(word_list):
     """
-    Anagrams database.
-
-    Since anagrams are computationally intensive to calculate,
-    we calculate it once, and then store it.
-
-    For future calls, we load the database use it to get anagrams
-    for words.
-
-    The database is loaded into a dictionary called "anagrams".
 
     The keys for "anagrams" are the alphabetized, lower cased
     version of a word. The value in each database entry is the set
