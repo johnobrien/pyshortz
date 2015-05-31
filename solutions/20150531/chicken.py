@@ -6,6 +6,7 @@ Created on May 31, 2015
 
 import re
 import locale
+import shelve
 from nltk.corpus import words
 from solver.solver import Solver, ghits
 
@@ -17,9 +18,31 @@ class ChickenSolver(Solver):
         '''
         Solve method.
         '''
+        
+        hits = []
+        candidates = get_or_rebuild(words)
+        for candidate in candidates:
+            word1_hits = ghits(" ".join([candidate["word1"], "chicken"]))
+            word2_hits = ghits(" ".join(["chicken", candidate["word2"]]))
+            total_hits = word1_hits + word2_hits
+            hits.append((total_hits, word1_hits, word1, word2_hits, word2))
+            
+        hits.sort(key= lambda tup: tup[0])
+        
+        return(hits)
+
+    def get_or_rebuild(self, words):
+        d = shelve.open("chickens.db")
+        if self.rebuild or "candidates" not in d:
+            candidates = rebuild_candidates(words) 
+            d["candidates"] = candidates
+        else:
+            candidates = d["candidates"]
+        d.close()
+        return candidates
+
+    def rebuild_candidates(self, words):            
         WORD_LEN = 5
-        
-        
         candidates = []
         for n, word1 in enumerate(words):
             # The following bit of code creates a regex
@@ -39,17 +62,8 @@ class ChickenSolver(Solver):
                             tmp["word2"] = word2
                             candidates.append(tmp)
                             print("Added {0} and {2}".format(word1, word2)) 
-        hits = []
-        for candidate in candidates:
-            word1_hits = ghits(" ".join([candidate["word1"], "chicken"]))
-            word2_hits = ghits(" ".join(["chicken", candidate["word2"]]))
-            total_hits = word1_hits + word2_hits
-            hits.append((total_hits, word1_hits, word1, word2_hits, word2))
-            
-        hits.sort(key= lambda tup: tup[0])
-        
-        return(hits)
-
+    
+        return candidates
 
 if __name__ == '__main__':
     p = """
@@ -59,6 +73,8 @@ if __name__ == '__main__':
 """
     s = ChickenSolver(p)
     w = words.words()
+    # To rebuild the shelve, call s.solve with w and rebuild=True
+    # hits = s.solve(w, rebuild=True)
     hits = s.solve(w)
     for hit in hits:
         print("Total:{0} {1} chicken, chicken {2}".format(hit[0], hit[2], hit[4]))
