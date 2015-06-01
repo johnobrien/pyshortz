@@ -68,10 +68,10 @@ def googlesearch(searchfor):
     '''
     Searches google
     using the requests library
-    
+
     returns a requests.response object
     '''
-    link = 'http://www.google.com/search?q={0}'.format(searchfor)                                                                                                                              
+    link = 'https://www.googleapis.com/customsearch/v1?q={0}'.format(searchfor)                                                                                                                              
     ua = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36'}                                                                
     payload = {'q': searchfor}                                                                                                                                                                                     
     response = requests.get(link, headers=ua, params=payload)                                                                                                                                                      
