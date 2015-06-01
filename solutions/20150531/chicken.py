@@ -8,67 +8,55 @@ import re
 import locale
 import shelve
 from nltk.corpus import words
-from solver.solver import Solver, ghits
+from solver.solver import Solver, ghits, get_all_words, char_filter
+from string import ascii_lowercase, punctuation
 
 class ChickenSolver(Solver):
     '''
     The solver for the 5/31/2015 puzzle.
     '''
-    def solve(self, words):
+    def solve(self, words, threshold=100):
         '''
         Solve method.
         '''
         
-        hits = []
-        candidates = self.get_or_rebuild(words)
-        for candidate in candidates:
-            tmp = {}
-            tmp["word1_hits"] = ghits(" ".join([candidate["word1"], "chicken"]))
-            tmp["word2_hits"] = ghits(" ".join(["chicken", candidate["word2"]]))
-            tmp["total_hits"] = tmp["word1_hits"] + tmp["word2_hits"]
-            tmp["word1"] = candidate["word1"]
-            tmp["word2"] = candidate["word2"]
-            hits.append(tmp)
+        self.get_or_rebuild(words)
+        self.hits = {}
+        for word1, word2 in self.candidates:
+            self.hits[(word1, word2)] = (ghits(word1 + " chicken"), ghits("chicken " + word2))
+            #if min(self.hits[(word1, word2)]) < threshold:
+            #    del self.hits[(word1, word2)]
             
-        hits.sort(key= lambda l: l["total_hits"])
-        
-        return(hits)
+        self.hits.sort(key= lambda l: l["total_hits"])
 
     def get_or_rebuild(self, words):
         d = shelve.open("chickens.db")
-        if self.rebuild or "candidates" not in d:
+        if self.__dict__.get("rebuild", False) or "candidates" not in d:
             print("Rebuilding candidates...")
-            candidates = self.rebuild_candidates(words) 
-            d["candidates"] = candidates
+            self.rebuild_candidates(words) 
+            d["candidates"] = self.candidates
         else:
             print("Retrieving candidates from shelf...")
-            candidates = d["candidates"]
+            self.candidates = d["candidates"]
         d.close()
-        return candidates
 
-    def rebuild_candidates(self, words):            
-        WORD_LEN = 5
-        candidates = []
-        for n, word1 in enumerate(words):
-            # The following bit of code creates a regex
-            # whose "match" method can be used to check
-            # whether the first two and last two letters
-            # of word2 equal word1.
-            # I still hate regex.
-            ex = word1[:2] + "." + word1[3:5] + ""
-            regex = re.compile(ex, re.IGNORECASE)
-            if len(word1) == WORD_LEN:
-                for word2 in words:
-                    if len(word2) == WORD_LEN and word2 != word1:
-                        # print("Checking #{0} out of {1}: {2} against {3}".format(n, len(words), word1, word2))
-                        if regex.match(word2):
-                            tmp = {}
-                            tmp["word1"] = word1
-                            tmp["word2"] = word2
-                            candidates.append(tmp)
-                            print("Added {0} and {1}".format(word1, word2)) 
-    
-        return candidates
+    def rebuild_candidates(self, words, word_len=5, position=2):
+        self.candidates = set()
+        valid_words = set()
+        for word in words:
+            if len(char_filter(word, " "+punctuation)) == word_len:
+                valid_words.add(char_filter(word, " "+punctuation))
+        for word in valid_words:
+            # JOB- I removed the regex. We both hate it and it's 
+            #      difficult to follow. I also parameterized a bit with options. -LB
+            new_words = [word[:position]+letter+word[position+1:] \
+                         for letter in ascii_lowercase]
+            for new_word in new_words:
+                if (new_word in valid_words) and (new_word != word):
+                    self.candidates.add((word, new_word))
+                    self.candidates.add((new_word, word))
+                    if self.__dict__.get("verbose", False): 
+                        print("Added {0} and {1}".format(word, new_word)) 
 
 if __name__ == '__main__':
     p = """
@@ -78,8 +66,11 @@ if __name__ == '__main__':
 """
     # To rebuild the shelve, call s.solve with w and rebuild=True
     # s = ChickenSolver(p, rebuild=True)
-    s = ChickenSolver(p, rebuild=False)
-    w = words.words()
-    hits = s.solve(w)
-    for hit in hits:
-        print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], hit["word1"],  hit["word2"]))
+    s = ChickenSolver(p, rebuild=True, verbose=False)
+    #w = get_all_words()
+    w = ["green", "groen", "groot"]
+    s.get_or_rebuild(w)
+    print("number of candidates:", len(s.candidates))
+    #s.solve(w)
+    #for hit in hits:
+    #    print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], hit["word1"],  hit["word2"]))

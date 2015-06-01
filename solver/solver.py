@@ -25,6 +25,18 @@ def char_filter(text, chars="aeiouy", count=None):
                 result = result.replace(letter, "", count)
     return result
 
+def get_all_words():
+    wordlist = set()
+    lemmas = [lemma_name for lemma_name in wordnet.all_lemma_names()]
+    print("lemmas:           ", len(lemmas))
+    synsets = [syn.name()[:syn.name().index(".")] for syn in wordnet.all_synsets()]
+    print("synsets:          ", len(synsets))
+    corpus_words = words.words()
+    print("words.words:      ", len(corpus_words))
+    [wordlist.add(word) for word in lemmas + synsets + corpus_words]
+    print("returned wordlist:", len(wordlist))
+    return wordlist
+
 class Solver(object):
     '''
     classdocs
@@ -52,15 +64,13 @@ class Solver(object):
         '''
 
         wordlist = set()
-        lemmas = [lemma_name for lemma_name in wordnet.all_lemma_names()]
-        synsets = [syn.name()[:syn.name().index(".")] for syn in wordnet.all_synsets()]
-        for word in words.words() + synsets + lemmas:
+        allwords = get_all_words()
+        for word in allwords:
             synset = wordnet.synsets(word)
             for syn in synset:
                 if any([kw.lower() in syn.definition().lower() for kw in kws]):
                     wordlist.add(word)
                     wordlist.add(syn.name().split(".")[0].lower())
-
         return wordlist
 
 
