@@ -22,21 +22,26 @@ class ChickenSolver(Solver):
         hits = []
         candidates = self.get_or_rebuild(words)
         for candidate in candidates:
-            word1_hits = ghits(" ".join([candidate["word1"], "chicken"]))
-            word2_hits = ghits(" ".join(["chicken", candidate["word2"]]))
-            total_hits = word1_hits + word2_hits
-            hits.append((total_hits, word1_hits, candidate["word1"], word2_hits, candidate["word2"]))
+            tmp = {}
+            tmp["word1_hits"] = ghits(" ".join([candidate["word1"], "chicken"]))
+            tmp["word2_hits"] = ghits(" ".join(["chicken", candidate["word2"]]))
+            tmp["total_hits"] = tmp["word1_hits"] + tmp["word2_hits"]
+            tmp["word1"] = candidate["word1"]
+            tmp["word2"] = candidate["word2"]
+            hits.append(tmp)
             
-        hits.sort(key= lambda tup: tup[0])
+        hits.sort(key= lambda l: l["total_hits"])
         
         return(hits)
 
     def get_or_rebuild(self, words):
         d = shelve.open("chickens.db")
         if self.rebuild or "candidates" not in d:
+            print("Rebuilding candidates...")
             candidates = self.rebuild_candidates(words) 
             d["candidates"] = candidates
         else:
+            print("Retrieving candidates from shelf...")
             candidates = d["candidates"]
         d.close()
         return candidates
@@ -72,9 +77,9 @@ if __name__ == '__main__':
  a common 2 word phrase. what are the 2 words?
 """
     # To rebuild the shelve, call s.solve with w and rebuild=True
-    s = ChickenSolver(p, rebuild=True)
-    # s = ChickenSolver(p, rebuild=False)
+    # s = ChickenSolver(p, rebuild=True)
+    s = ChickenSolver(p, rebuild=False)
     w = words.words()
     hits = s.solve(w)
     for hit in hits:
-        print("Total:{0} {1} chicken, chicken {2}".format(hit[0], hit[2], hit[4]))
+        print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], hit["word1"],  hit["word2"]))

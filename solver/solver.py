@@ -82,8 +82,12 @@ def ghits(searchfor):
     then parses the response to just
     return the approximate number of hits.
     '''
-    
-    response = googlesearch(searchfor)
+    # Commenting out for now
+    # We need to research what frequncy
+    # we can use requests on google
+    # before it will block us.
+    # response = googlesearch(searchfor)
+
     # here we parse the response to get the approximate
     # number of hits, and return that
     # for now hard code to 100
