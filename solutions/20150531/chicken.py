@@ -20,12 +20,12 @@ class ChickenSolver(Solver):
         '''
         
         hits = []
-        candidates = get_or_rebuild(words)
+        candidates = self.get_or_rebuild(words)
         for candidate in candidates:
             word1_hits = ghits(" ".join([candidate["word1"], "chicken"]))
             word2_hits = ghits(" ".join(["chicken", candidate["word2"]]))
             total_hits = word1_hits + word2_hits
-            hits.append((total_hits, word1_hits, word1, word2_hits, word2))
+            hits.append((total_hits, word1_hits, candidate["word1"], word2_hits, candidate["word2"]))
             
         hits.sort(key= lambda tup: tup[0])
         
@@ -34,7 +34,7 @@ class ChickenSolver(Solver):
     def get_or_rebuild(self, words):
         d = shelve.open("chickens.db")
         if self.rebuild or "candidates" not in d:
-            candidates = rebuild_candidates(words) 
+            candidates = self.rebuild_candidates(words) 
             d["candidates"] = candidates
         else:
             candidates = d["candidates"]
@@ -50,18 +50,18 @@ class ChickenSolver(Solver):
             # whether the first two and last two letters
             # of word2 equal word1.
             # I still hate regex.
-            ex = word1[:2] + "{2}." + word1[3:5] + "{2}"
+            ex = word1[:2] + "." + word1[3:5] + ""
             regex = re.compile(ex, re.IGNORECASE)
             if len(word1) == WORD_LEN:
                 for word2 in words:
                     if len(word2) == WORD_LEN and word2 != word1:
-                        print("Checking #{0} out of {1}: {2} against {3}".format(n, len(words), word1, word2))
+                        # print("Checking #{0} out of {1}: {2} against {3}".format(n, len(words), word1, word2))
                         if regex.match(word2):
                             tmp = {}
                             tmp["word1"] = word1
                             tmp["word2"] = word2
                             candidates.append(tmp)
-                            print("Added {0} and {2}".format(word1, word2)) 
+                            print("Added {0} and {1}".format(word1, word2)) 
     
         return candidates
 
@@ -71,10 +71,10 @@ if __name__ == '__main__':
  change the middle letter to form a word the comes after 'chicken' in 
  a common 2 word phrase. what are the 2 words?
 """
-    s = ChickenSolver(p)
-    w = words.words()
     # To rebuild the shelve, call s.solve with w and rebuild=True
-    # hits = s.solve(w, rebuild=True)
+    s = ChickenSolver(p, rebuild=True)
+    # s = ChickenSolver(p, rebuild=False)
+    w = words.words()
     hits = s.solve(w)
     for hit in hits:
         print("Total:{0} {1} chicken, chicken {2}".format(hit[0], hit[2], hit[4]))
