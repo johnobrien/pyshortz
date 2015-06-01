@@ -1,5 +1,8 @@
+import sys
+from time import sleep
+import re
 from nltk.corpus import words, wordnet
-import requests                                                                                                                                                                                                    
+import requests
 
 # a little easy to use lookup tool for on-the-fly use
 def lookup(word):
@@ -49,7 +52,7 @@ class Solver(object):
         '''
 
         wordlist = set()
-        lemmas  = [lemma_name for lemma_name in wordnet.all_lemma_names()]
+        lemmas = [lemma_name for lemma_name in wordnet.all_lemma_names()]
         synsets = [syn.name()[:syn.name().index(".")] for syn in wordnet.all_synsets()]
         for word in words.words() + synsets + lemmas:
             synset = wordnet.synsets(word)
@@ -68,30 +71,29 @@ def googlesearch(searchfor):
     
     returns a requests.response object
     '''
-    link = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&%s' % searchfor                                                                                                                              
+    link = 'http://www.google.com/search?q={0}'.format(searchfor)                                                                                                                              
     ua = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36'}                                                                
     payload = {'q': searchfor}                                                                                                                                                                                     
     response = requests.get(link, headers=ua, params=payload)                                                                                                                                                      
-    return response
+    t = response.text.encode(sys.stdout.encoding, errors='replace')
+    # Add a one second sleep time to avoid google captcha's being triggered
+    sleep(1)
+    return str(t)
 
 
 def ghits(searchfor):
     '''
     Searches google
-    
+
     then parses the response to just
     return the approximate number of hits.
     '''
-    # Commenting out for now
-    # We need to research what frequncy
-    # we can use requests on google
-    # before it will block us.
-    # response = googlesearch(searchfor)
-
-    # here we parse the response to get the approximate
-    # number of hits, and return that
-    # for now hard code to 100
-    return 100
+    content = googlesearch(searchfor)
+    print(content)
+    regex = re.compile('id=\"resultStats\">About .* results')
+    hits = regex.match(content)
+    hits = int(hits.replace(',', ''))
+    return hits
 
 
 if __name__ == "__main__":

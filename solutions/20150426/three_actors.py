@@ -148,7 +148,7 @@ if __name__ == "__main__":
         if actor.count(" ") == 1 and actor.count(",") == 1:
             last, first = actor.split(",")
             actors.append(first + " " + last)
-    
+
     s = Solution(actors, verbose=True)
     print("Candidates:")
     if s.possible_answers:
