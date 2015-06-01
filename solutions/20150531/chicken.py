@@ -19,6 +19,7 @@ class ChickenSolver(Solver):
         '''
         Solve method.
         '''
+<<<<<<< HEAD
         
         self.get_or_rebuild(words)
         self.hits = {}
@@ -27,7 +28,7 @@ class ChickenSolver(Solver):
             #if min(self.hits[(word1, word2)]) < threshold:
             #    del self.hits[(word1, word2)]
             
-        self.hits.sort(key= lambda l: l["total_hits"])
+        #self.hits.sort(key= lambda l: l["total_hits"])
 
     def get_or_rebuild(self, words):
         d = shelve.open("chickens.db")
