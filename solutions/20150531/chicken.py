@@ -21,18 +21,18 @@ class ChickenSolver(Solver):
         
         hits = []
         candidates = self.get_or_rebuild(words)
-        for candidate in candidates:
-            tmp = {}
-            tmp["word1_hits"] = ghits(" ".join([candidate["word1"], "chicken"]))
-            tmp["word2_hits"] = ghits(" ".join(["chicken", candidate["word2"]]))
-            tmp["total_hits"] = tmp["word1_hits"] + tmp["word2_hits"]
-            tmp["word1"] = candidate["word1"]
-            tmp["word2"] = candidate["word2"]
-            hits.append(tmp)
+#         for candidate in candidates:
+#             tmp = {}
+#             tmp["word1_hits"] = ghits(" ".join([candidate["word1"], "chicken"]))
+#             tmp["word2_hits"] = ghits(" ".join(["chicken", candidate["word2"]]))
+#             tmp["total_hits"] = tmp["word1_hits"] + tmp["word2_hits"]
+#             tmp["word1"] = candidate["word1"]
+#             tmp["word2"] = candidate["word2"]
+#             hits.append(tmp)
             
-        hits.sort(key= lambda l: l["total_hits"])
+        # hits.sort(key= lambda l: l["total_hits"])
         
-        return(hits)
+        return(candidates)
 
     def get_or_rebuild(self, words):
         d = shelve.open("chickens.db")
@@ -80,6 +80,11 @@ if __name__ == '__main__':
     # s = ChickenSolver(p, rebuild=True)
     s = ChickenSolver(p, rebuild=False)
     w = words.words()
-    hits = s.solve(w)
-    for hit in hits:
-        print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], hit["word1"],  hit["word2"]))
+    # hits = s.solve(w)
+    # for hit in hits:
+    #    print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], hit["word1"],  hit["word2"]))
+    candidates = s.solve(w)
+    with open('output.txt', 'w') as file:
+        for candidate in candidates:
+            out = "{0} chicken, chicken {1}".format(candidate["word1"], candidate["word2"])
+            file.write(out + "\n")
