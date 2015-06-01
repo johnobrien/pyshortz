@@ -3,6 +3,7 @@ from time import sleep
 import re
 from nltk.corpus import words, wordnet
 import requests
+import string
 
 # a little easy to use lookup tool for on-the-fly use
 def lookup(word):
@@ -24,6 +25,18 @@ def char_filter(text, chars="aeiouy", count=None):
             else:
                 result = result.replace(letter, "", count)
     return result
+
+def get_all_words():
+    wordlist = set()
+    lemmas = [lemma_name for lemma_name in wordnet.all_lemma_names()]
+    print("lemmas:           ", len(lemmas))
+    synsets = [syn.name()[:syn.name().index(".")] for syn in wordnet.all_synsets()]
+    print("synsets:          ", len(synsets))
+    corpus_words = words.words()
+    print("words.words:      ", len(corpus_words))
+    [wordlist.add(word) for word in lemmas + synsets + corpus_words]
+    print("returned wordlist:", len(wordlist))
+    return wordlist
 
 class Solver(object):
     '''
@@ -52,15 +65,13 @@ class Solver(object):
         '''
 
         wordlist = set()
-        lemmas = [lemma_name for lemma_name in wordnet.all_lemma_names()]
-        synsets = [syn.name()[:syn.name().index(".")] for syn in wordnet.all_synsets()]
-        for word in words.words() + synsets + lemmas:
+        allwords = get_all_words()
+        for word in allwords:
             synset = wordnet.synsets(word)
             for syn in synset:
                 if any([kw.lower() in syn.definition().lower() for kw in kws]):
                     wordlist.add(word)
                     wordlist.add(syn.name().split(".")[0].lower())
-
         return wordlist
 
 
@@ -77,7 +88,7 @@ def googlesearch(searchfor):
     response = requests.get(link, headers=ua, params=payload)                                                                                                                                                      
     t = response.text.encode(sys.stdout.encoding, errors='replace')
     # Add a one second sleep time to avoid google captcha's being triggered
-    sleep(1)
+    sleep(5)
     return str(t)
 
 
@@ -90,9 +101,8 @@ def ghits(searchfor):
     '''
     content = googlesearch(searchfor)
     print(content)
-    regex = re.compile('id=\"resultStats\">About .* results')
-    hits = regex.match(content)
-    hits = int(hits.replace(',', ''))
+    hits = re.search('id=\"resultStats\">About [0-9\,]* results', content)
+    hits = int(char_filter(hits.group(), string.printable[10:])) # remove all except digits
     return hits
 
 
