@@ -22,8 +22,10 @@ class ChickenSolver(Solver):
         
         self.get_or_rebuild(words)
         self.hits = {}
+        print("searching google. this may take a while.", flush=True)
         for word1, word2 in self.candidates:
             self.hits[(word1, word2)] = (ghits(word1 + " chicken"), ghits("chicken " + word2))
+            print(".", flush=True)
             #if min(self.hits[(word1, word2)]) < threshold:
             #    del self.hits[(word1, word2)]
             
@@ -71,6 +73,6 @@ if __name__ == '__main__':
     w = ["green", "groen", "groot"]
     s.get_or_rebuild(w)
     print("number of candidates:", len(s.candidates))
-    #s.solve(w)
+    s.solve(w)
     #for hit in hits:
     #    print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], hit["word1"],  hit["word2"]))

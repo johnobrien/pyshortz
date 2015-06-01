@@ -3,6 +3,7 @@ from time import sleep
 import re
 from nltk.corpus import words, wordnet
 import requests
+import string
 
 # a little easy to use lookup tool for on-the-fly use
 def lookup(word):
@@ -87,7 +88,7 @@ def googlesearch(searchfor):
     response = requests.get(link, headers=ua, params=payload)                                                                                                                                                      
     t = response.text.encode(sys.stdout.encoding, errors='replace')
     # Add a one second sleep time to avoid google captcha's being triggered
-    sleep(1)
+    sleep(5)
     return str(t)
 
 
@@ -100,9 +101,8 @@ def ghits(searchfor):
     '''
     content = googlesearch(searchfor)
     print(content)
-    regex = re.compile('id=\"resultStats\">About .* results')
-    hits = regex.match(content)
-    hits = int(hits.replace(',', ''))
+    hits = re.search('id=\"resultStats\">About [0-9\,]* results', content)
+    hits = int(char_filter(hits.group(), string.printable[10:])) # remove all except digits
     return hits
 
 
