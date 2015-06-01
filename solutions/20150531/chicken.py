@@ -19,7 +19,6 @@ class ChickenSolver(Solver):
         '''
         Solve method.
         '''
-<<<<<<< HEAD
         
         self.get_or_rebuild(words)
         self.hits = {}
