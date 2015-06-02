@@ -56,7 +56,7 @@ class Solver(object):
     def clear_candidates(self):
         """a method to clear the candidates list"""
         self.candidates = set()
-    
+
     def get_words(self, kws):
         '''
         A method to create a set of words
@@ -75,19 +75,19 @@ class Solver(object):
         return wordlist
 
 
-def googlesearch(searchfor):                                                                                                                                                                                       
+def google_search(searchfor):
     '''
     Searches google
     using the requests library
 
     returns a requests.response object
     '''
-    link = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&{0}'.format(searchfor)
+    link = 'https://www.google.com/search?&q={0}'.format(searchfor)
     ua = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36'}
     payload = {'q': searchfor}
     response = requests.get(link, headers=ua, params=payload)
     t = response.text.encode(sys.stdout.encoding, errors='replace')
-    # Add a one second sleep time to avoid google captcha's being triggered
+    # Add a five second sleep time to avoid google captcha's being triggered
     sleep(5)
     return str(t)
 
@@ -99,36 +99,10 @@ def ghits(searchfor):
     then parses the response to just
     return the approximate number of hits.
     '''
-    content = googlesearch(searchfor)
-    print(content)
+    content = google_search(searchfor)
     hits = re.search('id=\"resultStats\">About [0-9\,]* results', content)
     hits = int(char_filter(hits.group(), string.printable[10:])) # remove all except digits
     return hits
-
-
-if __name__ == "__main__":
-    import unittest
-    #from solver import Solver, char_filter
-    
-    vowels = "aeiou"
-    class TestWord(unittest.TestCase):
-        def test_vowels(self):
-            self.assertEqual(char_filter("christmas", vowels), "chrstms")
-        def test_butterfly(self):
-            self.assertEqual(char_filter("butterfly", "t"), "buerfly")
-        def test_single_filter(self):
-            self.assertEqual(char_filter("butterstick", "t", 1), "buterstick")
-            self.assertEqual(char_filter("butterstick", "t", 2), "buerstick")
-            self.assertEqual(char_filter("butterstick", "t", 3), "buersick")
-        def test_multiple_filter(self):
-            self.assertEqual(char_filter("mississippi", "is"), "mpp")
-            self.assertEqual(char_filter("mississippi", "is", 1), "msissippi")
-            self.assertEqual(char_filter("mississippi", "is", 2), "mssippi")
-            self.assertEqual(char_filter("mississippi", "is", 3), "msppi")
-        def test_count(self):
-            self.assertEqual(char_filter("basement", vowels, 1), "bsment")
-
-    unittest.main()
 
 
 def search_brown(phrase):
@@ -139,6 +113,14 @@ def search_brown(phrase):
 
     Returns of the number of times the phrase appears in the brown corpus.
     '''
+    '''
+    Might be able to leverage concordance to create a two word phrase
+    concordance quick find index thing.
+
+    emma = nltk.Text(nltk.corpus.gutenberg.words('austen-emma.txt'))
+    emma.concordance("surprize")
+    '''
+
     sentences = brown.sents()
     matches = 0
     for sentence in sentences:
