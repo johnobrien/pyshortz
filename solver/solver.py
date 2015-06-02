@@ -1,7 +1,7 @@
 import sys
 from time import sleep
 import re
-from nltk.corpus import words, wordnet
+from nltk.corpus import words, wordnet, brown
 import requests
 import string
 
@@ -82,10 +82,10 @@ def googlesearch(searchfor):
 
     returns a requests.response object
     '''
-    link = 'https://www.googleapis.com/customsearch/v1?q={0}'.format(searchfor)                                                                                                                              
-    ua = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36'}                                                                
-    payload = {'q': searchfor}                                                                                                                                                                                     
-    response = requests.get(link, headers=ua, params=payload)                                                                                                                                                      
+    link = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&{0}'.format(searchfor)
+    ua = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36'}
+    payload = {'q': searchfor}
+    response = requests.get(link, headers=ua, params=payload)
     t = response.text.encode(sys.stdout.encoding, errors='replace')
     # Add a one second sleep time to avoid google captcha's being triggered
     sleep(5)
@@ -127,5 +127,21 @@ if __name__ == "__main__":
             self.assertEqual(char_filter("mississippi", "is", 3), "msppi")
         def test_count(self):
             self.assertEqual(char_filter("basement", vowels, 1), "bsment")
-    
+
     unittest.main()
+
+
+def search_brown(phrase):
+    '''
+    searches the brown corpus.
+
+    Returns of the number of times the phrase appears in the brown corpus.
+    '''
+    words = phrase.split()
+    sentences = brown.sents()
+    matches = 0
+    for sentence in sentences:
+        if any(words == sentence[i: len(words) + 1] for i in range(len(sentence) - len(words))):
+            matches += 1
+
+    return matches

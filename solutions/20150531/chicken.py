@@ -19,7 +19,7 @@ class ChickenSolver(Solver):
         '''
         Solve method.
         '''
-        
+
         self.get_or_rebuild(words)
         self.hits = {}
         print("searching google. this may take a while.", flush=True)
@@ -28,7 +28,7 @@ class ChickenSolver(Solver):
             print(".", flush=True)
             #if min(self.hits[(word1, word2)]) < threshold:
             #    del self.hits[(word1, word2)]
-            
+
         #self.hits.sort(key= lambda l: l["total_hits"])
 
     def get_or_rebuild(self, words):
@@ -74,5 +74,7 @@ if __name__ == '__main__':
     s.get_or_rebuild(w)
     print("number of candidates:", len(s.candidates))
     s.solve(w)
-    #for hit in hits:
-    #    print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], hit["word1"],  hit["word2"]))
+    for hit in hits:
+        print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], 
+                                                          hit["word1"],
+                                                          hit["word2"]))

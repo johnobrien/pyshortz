@@ -4,7 +4,7 @@ Created on May 10, 2015
 @authors: john o'brien, leiran biton
 '''
 import unittest
-from word import Word
+from word import Word, char_filter
 
 
 class TestWord(unittest.TestCase):
@@ -39,6 +39,22 @@ class TestWord(unittest.TestCase):
         self.assertEqual(w.reversed, "tcejorp")
         self.assertEqual(w.alphabetized, "cejoprt")
         self.assertEqual(w.syllables, {2})
+
+        def test_vowels(self):
+            self.assertEqual(char_filter("christmas", vowels), "chrstms")
+        def test_butterfly(self):
+            self.assertEqual(char_filter("butterfly", "t"), "buerfly")
+        def test_single_filter(self):
+            self.assertEqual(char_filter("butterstick", "t", 1), "buterstick")
+            self.assertEqual(char_filter("butterstick", "t", 2), "buerstick")
+            self.assertEqual(char_filter("butterstick", "t", 3), "buersick")
+        def test_multiple_filter(self):
+            self.assertEqual(char_filter("mississippi", "is"), "mpp")
+            self.assertEqual(char_filter("mississippi", "is", 1), "msissippi")
+            self.assertEqual(char_filter("mississippi", "is", 2), "mssippi")
+            self.assertEqual(char_filter("mississippi", "is", 3), "msppi")
+        def test_count(self):
+            self.assertEqual(char_filter("basement", vowels, 1), "bsment")
 
 
 if __name__ == "__main__":

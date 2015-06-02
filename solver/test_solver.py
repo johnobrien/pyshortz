@@ -4,7 +4,7 @@ Created on May 27, 2015
 @author: john.obrien
 '''
 import unittest
-from solver import char_filter  # pylint: disable-msg=E0611
+from solver import char_filter, search_brown
 
 
 class TestSolver(unittest.TestCase):
@@ -22,6 +22,14 @@ class TestSolver(unittest.TestCase):
         self.assertEqual('aaaaccccc', char_filter('aabababbbbbbbccbcbcc', 'b'))
         self.assertEqual('aabcdef', char_filter('aabbcdef', 'b', 1))
 
+    def test_search_brown(self):
+        '''
+        Tests to run see if searching
+        brown returns consistent results.
+        '''
+        self.assertEqual(11, search_brown("jury"))
+        self.assertEqual(0, search_brown("roast chicken"))
+        self.assertEqual(0, search_brown("relative handful"))
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']

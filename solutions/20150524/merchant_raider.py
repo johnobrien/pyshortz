@@ -15,7 +15,7 @@ class MySolver(Solver):
     MySolver is an example solver
     which is a child of the solver class.
     '''
-        
+
     def try_list(self, list_name, jobs):
         '''
         Takes a list job titles,
@@ -35,13 +35,13 @@ class MySolver(Solver):
             except AssertionError:
                 pass
         if self.__dict__.get("verbose", False): self.get_candidates()
-        
+
     def get_candidates(self):
         """prints the current list of candidates"""
         print("current candidates:")
         for job1, job2 in self.candidates:
             print("    {0} {1}".format(job1, job2))
-    
+
 
 if __name__ == '__main__':
 
@@ -53,7 +53,7 @@ they?'''
     # quiet testing
     s = MySolver(p, word="blosserfakers", verbose=False)
     s.try_list("testing", ["baker", "flosser", "flossers", "bakers"])
-    
+
     #Try NLTK
     s = MySolver(p, word="merchantraider", verbose=False)
     print("accessing nltk with keyword list:")
@@ -72,7 +72,7 @@ they?'''
            "who",
            "official",
            "writer",
-           "a female" 
+           "a female"
            ]
     for kw in kws:
         print("    {0}".format(kw))
