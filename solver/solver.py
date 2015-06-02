@@ -135,14 +135,17 @@ def search_brown(phrase):
     '''
     searches the brown corpus.
 
+    phrase = list of words
+
     Returns of the number of times the phrase appears in the brown corpus.
     '''
-    words = phrase.split()
     sentences = brown.sents()
     matches = 0
     for sentence in sentences:
-        for i in range(len(sentence) - 1):
-            if words == sentence[i: len(words) + 1]:
+        sentence = [word.lower() for word in sentence]
+        for i in range(0, len(sentence) -1):
+            frag = sentence[i:i + len(phrase)]
+            if phrase == frag:
                 matches += 1
 
     return matches

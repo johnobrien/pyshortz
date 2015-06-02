@@ -4,12 +4,10 @@ Created on May 31, 2015
 @authors: leiran biton, john o'brien
 '''
 
-import re
-import locale
 import shelve
-from nltk.corpus import words
-from solver.solver import Solver, ghits, get_all_words, char_filter
+from solver.solver import Solver, search_brown, get_all_words, char_filter
 from string import ascii_lowercase, punctuation
+
 
 class ChickenSolver(Solver):
     '''
@@ -21,21 +19,16 @@ class ChickenSolver(Solver):
         '''
 
         self.get_or_rebuild(words)
-        self.hits = {}
-        print("searching google. this may take a while.", flush=True)
+        print("searching the brown corpus. this may take a while.", flush=True)
         for word1, word2 in self.candidates:
-            self.hits[(word1, word2)] = (ghits(word1 + " chicken"), ghits("chicken " + word2))
-            print(".", flush=True)
-            #if min(self.hits[(word1, word2)]) < threshold:
-            #    del self.hits[(word1, word2)]
-
-        #self.hits.sort(key= lambda l: l["total_hits"])
+            if search_brown([word1, "chicken"]) and search_brown(["chicken", word2]):
+                print("One answer could be {0} chicken, chicken {1}".format(word1, word2))
 
     def get_or_rebuild(self, words):
         d = shelve.open("chickens.db")
         if self.__dict__.get("rebuild", False) or "candidates" not in d:
             print("Rebuilding candidates...")
-            self.rebuild_candidates(words) 
+            self.rebuild_candidates(words)
             d["candidates"] = self.candidates
         else:
             print("Retrieving candidates from shelf...")
@@ -69,12 +62,8 @@ if __name__ == '__main__':
     # To rebuild the shelve, call s.solve with w and rebuild=True
     # s = ChickenSolver(p, rebuild=True)
     s = ChickenSolver(p, rebuild=True, verbose=False)
-    #w = get_all_words()
-    w = ["green", "groen", "groot"]
-    s.get_or_rebuild(w)
-    print("number of candidates:", len(s.candidates))
+    w = get_all_words()
+    # w = ["green", "groen", "groot"]
+    # s.get_or_rebuild(w)
+    # print("number of candidates:", len(s.candidates))
     s.solve(w)
-    for hit in hits:
-        print("Total:{0} {1} chicken, chicken {2}".format(hit["total_hits"], 
-                                                          hit["word1"],
-                                                          hit["word2"]))

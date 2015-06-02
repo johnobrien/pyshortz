@@ -27,9 +27,9 @@ class TestSolver(unittest.TestCase):
         Tests to run see if searching
         brown returns consistent results.
         '''
-        self.assertEqual(11, search_brown("jury"))
-        self.assertEqual(0, search_brown("roast chicken"))
-        self.assertEqual(0, search_brown("relative handful"))
+        self.assertEqual(67, search_brown("jury"))
+        self.assertEqual(1, search_brown("roast chicken"))
+        self.assertEqual(1, search_brown("relative handful"))
 
 if __name__ == "__main__":
     # import sys;sys.argv = ['', 'Test.testName']
