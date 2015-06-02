@@ -141,7 +141,8 @@ def search_brown(phrase):
     sentences = brown.sents()
     matches = 0
     for sentence in sentences:
-        if any(words == sentence[i: len(words) + 1] for i in range(len(sentence) - len(words))):
-            matches += 1
+        for i in range(len(sentence) - 1):
+            if words == sentence[i: len(words) + 1]:
+                matches += 1
 
     return matches
