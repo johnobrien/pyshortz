@@ -34,7 +34,7 @@ class ChickenSolver(Solver):
                     hits.append((total, candidate, hits1, hits2))
                     hits.sort(key=lambda x: x[0])
                     d["hits"] = hits
-            print(hits)
+            print(hits[0:100])
 
     def get_or_rebuild(self, words, d):
         if self.__dict__.get("rebuild", False) or "candidates" not in d:
