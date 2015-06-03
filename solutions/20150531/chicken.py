@@ -35,6 +35,9 @@ class ChickenSolver(Solver):
                     hits.sort(key=lambda x: x[0])
                     d["hits"] = hits
             print(hits[0:100])
+            with "output.txt" as f:
+                f.write(hits)
+            
 
     def get_or_rebuild(self, words, d):
         if self.__dict__.get("rebuild", False) or "candidates" not in d:
