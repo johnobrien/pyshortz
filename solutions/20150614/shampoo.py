@@ -28,6 +28,8 @@ class ShampooSolver(Solver):
                 if musician_str.endswith(shampoo_str):
                     adjective = musician_str[:len(musician_str)-len(shampoo_str)]
                     if adjective in adjectives:
+                        if self.__dict__.get("verbose", False): 
+                            print("Adding {0} + {1} = {2}".format(adjective, shampoo, musician))
                         self.candidates.append({"adjective": adjective,
                                                 "shampoo": shampoo,
                                                 "musician": musician
@@ -69,8 +71,8 @@ famous musician. Who is it?
         musicians = set([musician.strip() for musician in f.readlines()])
     print("Retrieved {0} musician names".format(len(musicians)))
     print("Starting solver...")
-    s = ShampooSolver(p)
+    s = ShampooSolver(p, verbose=True)
     print("Solving... (this may take a while)")
     s.solve(adjectives, shampoos, musicians)
-    print("Solving complete. Results:")
-    s.print_candidates()
+    print("Solving complete.")
+    #s.print_candidates()
