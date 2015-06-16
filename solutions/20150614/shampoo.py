@@ -54,7 +54,7 @@ famous musician. Who is it?
     print("Filtering for adjectives...")
     adjectives = set()
     for word in allwords:
-        word_synsets = wordnet.synsets(word)
+        synsets = wordnet.synsets(word)
         for synset in synsets:
             if synset.lexname().startswith("adj"):
                 adjectives.add(word)
@@ -64,12 +64,12 @@ famous musician. Who is it?
     with open("shampoos.txt", "r") as f:
         shampoos = set([shampoo.strip() for shampoo in f.readlines()])
     print("Retrieved {0} shampoo brands".format(len(shampoos)))
-    print("Importing musician list from musicians_list.txt. This might take a while.")
+    print("Importing musician list from musicians_list.txt.")
     with open("musicians_list.txt", "r") as f:
         musicians = set([musician.strip() for musician in f.readlines()])
     print("Retrieved {0} musician names".format(len(musicians)))
     print("Starting solver...")
-    s = ShampooSolver()
+    s = ShampooSolver(p)
     print("Solving... (this may take a while)")
     s.solve(adjectives, shampoos, musicians)
     print("Solving complete. Results:")
