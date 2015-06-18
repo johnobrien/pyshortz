@@ -35,25 +35,6 @@ class ShampooSolver(Solver):
                                                 "musician": musician
                                                })
         
-    def solve_against_musicians(self, adjectives, shampoos, musicians_dict):
-        '''
-        Solve method matching against musicians list.
-        '''
-        self.clear_candidates()
-        for adjective in adjectives:
-            for shampoo in shampoos:
-                adj_str = char_filter(adjective, punctuation + " ").lower()
-                shampoo_str  = char_filter(shampoo , punctuation + " ").lower()
-                musician_str = adj_str + shampoo_str
-                if musician_str in list(musicians_dict.keys()):
-                    for musician in musicians_dict[musician_str]:
-                        if self.__dict__.get("verbose", False): 
-                            print("Adding {0} + {1} = {2}".format(adjective, shampoo, musician))
-                        self.candidates.append({"adjective": adjective,
-                                                "shampoo": shampoo,
-                                                "musician": musician
-                                               })
-        
     def print_candidates(self):
         """prints the current list of valid candidates"""
         print("current candidates:")
@@ -89,19 +70,11 @@ famous musician. Who is it?
         shampoos = set([shampoo.strip() for shampoo in f.readlines()])
     print("Retrieved {0} shampoo brands".format(len(shampoos)))
     print("Importing musician list from musicians_list.txt.")
-    print("Building musicians dictionary...")
-    musicians_dict = dict()
     with open("musicians_list.txt", "r") as f:
-        for musician in f.readlines():
-            musician_str = char_filter(musician.strip(), punctuation + " ").lower()
-            if musician_str in list(musicians_dict.keys()):
-                musicians_dict[musician_str].add(musician.strip())
-            else:
-                musicians_dict[musician_str] = set([musician.strip()])
-    print("Retrieved {0} possible musician matches".format(len(list(musicians_dict.keys()))))
+        musicians = [musician.strip() for musician in f.readlines()]
     print("Starting solver...")
     s = ShampooSolver(p, verbose=True)
-    print("Solving (against musicians)... (this may take a while)")
-    s.solve_against_musicians(adjectives, shampoos, musicians_dict)
+    print("Solving... (this may take a while)")
+    s.solve(adjectives, shampoos, musicians)
     print("Solving complete.")
-    #s.print_candidates()
+    s.print_candidates()

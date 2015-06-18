@@ -57,3 +57,5 @@ target/
 .project
 .pydevproject
 .settings*
+
+solutions/20150614/musicians_list.txt
