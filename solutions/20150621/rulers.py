@@ -24,8 +24,8 @@ class RulerSolver(Solver):
         # using a numeric range.
         # page = requests.get('http://www.rulers.org/')
 
-        for i in range(year1, year2, verbose):
-            if self.__get__("verbose", False): print("Trying {0}".format(i))
+        for i in range(year1, year2):
+            if self.__dict__.get("verbose", False): print("Trying {0}".format(i))
             page = requests.get('https://en.wikipedia.org/wiki/List_of_state_leaders_in_{0}'.format(i))
             content = strip_accents(str(page.text))
             results = re.findall(r'title="(.*?)"', content)
@@ -46,4 +46,4 @@ not a monarch but who ruled with similar authority. Who is it?
 """
 
     s = RulerSolver(puzzle_text = p, verbose=True)
-    s.solve()
+    s.solve(2000, 2016)
