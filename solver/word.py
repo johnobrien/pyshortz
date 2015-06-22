@@ -7,11 +7,9 @@ Created on May 19, 2015
 
 from nltk.corpus import words, cmudict
 from lazy import lazy
-
-
+import unicodedata
 
 cmu = None
-
 
 def nsyl(word):
     """Counts the number of syllables in a word.
@@ -33,6 +31,9 @@ def nsyl(word):
             syllable_set.add(syllable_count)
     return syllable_set
 
+def strip_accents(s):
+   return ''.join(c for c in unicodedata.normalize('NFD', s)
+                  if unicodedata.category(c) != 'Mn')
 
 def alphabetize(word):
     """Rearranges the letters in a word to place them in alphabetical order.
