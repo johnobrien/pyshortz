@@ -27,7 +27,10 @@ not a monarch but who ruled with similar authority. Who is it?
 """
     # From http://docs.python-guide.org/en/latest/scenarios/scrape/
     # JO: Leiran, is this a list of real leaders or leaders in a video game?
-    page = requests.get('http://www.eu4wiki.com/List_of_rulers')
+    # LB: It was a video game that I thought might actually have a good list, 
+    #     but it seems bad on second look. I put in another site as a 
+    #     placeholder. Not sure what would work best.
+    page = requests.get('http://www.rulers.org/')
     tree = html.fromstring(page.text)
     # From http://stackoverflow.com/questions/6325216/parse-html-table-to-python-list
     # TODO: Magic goes here that uses xpath to get a table out of HTML.
