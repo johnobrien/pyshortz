@@ -47,5 +47,5 @@ Take the phrase "I am a monarch." Re-arrange the
 not a monarch but who ruled with similar authority. Who is it?
 """
 
-    s = RulerSolver(puzzle_text = p, verbose=True)
-    s.solve(2000, 2016)
+    s = RulerSolver(puzzle_text = p, verbose=False)
+    s.solve(1, 2016)
