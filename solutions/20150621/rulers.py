@@ -32,10 +32,12 @@ class RulerSolver(Solver):
             for result in results:
                 temp = alphabetize(char_filter(result.lower(), punctuation+" "))
                 if temp == target:
-                    print("Found: {0}->{1}".format(result, temp))
-                    solution = (result, temp)
+                    if self.__dict__.get("verbose", False):
+                        print("Found: {0}->{1}".format(result, temp))
+                        self.candidates.add(result)
 
-        print("Found solution: {0}->{1}".format(solution[0], solution[1]))
+        for candidate in self.candidates:
+            print("Found solution: {0}->{1}".format(candidate, alphabetize(candidate.lower())))
 
 
 if __name__ == '__main__':
