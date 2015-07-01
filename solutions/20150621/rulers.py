@@ -20,7 +20,7 @@ class RulerSolver(Solver):
     def solve(self, year1, year2):
         target = alphabetize("Iamamonarch".lower())
         # JO: Rulers.org looks good.
-        # Trying wikipedia for though because I can easily iterate
+        # Trying wikipedia for now though because I can easily iterate
         # using a numeric range.
         # page = requests.get('http://www.rulers.org/')
 
