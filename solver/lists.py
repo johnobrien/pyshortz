@@ -19,7 +19,7 @@ def get_companies():
     content = strip_accents(str(page.text))
     companies = re.findall(r'<TD>(.*?)\n</TD>', content)
     for company in companies:
-        yield company
+        yield company.lower()
 
 def get_musicians():
     urls = ['https://en.wikipedia.org/wiki/Category:American_pop_singers',
@@ -33,4 +33,4 @@ def get_musicians():
         content = strip_accents(str(page.text))
         musicians = re.findall(r'">(.*?)</a>', content)
         for musician in musicians:
-            yield musician
+            yield musician.lower()
