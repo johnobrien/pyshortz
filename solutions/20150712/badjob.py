@@ -39,7 +39,7 @@ class JobSolver(Solver):
     def solve(self, threshold=1):
         for job in self.jobs.keys():
             processed = self.process(job)
-            if processed in self.words and len(processed >= threshold):
+            if processed in self.words and len(processed) >= threshold:
                 for val in self.jobs[job]:
                     self.candidates.add((val, processed))
     
@@ -81,6 +81,6 @@ occupation. What is it?'''
     wordnet_jobs = s.get_words(kws)
     s.loadjobs(wordnet_jobs)
     s.loadwords(get_all_words())
-    s.solve(threshold=3)
+    s.solve(threshold=4)
     s.get_candidates()
     
