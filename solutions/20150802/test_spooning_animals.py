@@ -1,6 +1,6 @@
 import unittest
 
-from spooning_animals import SpooningAnimalsSolver
+from .spooning_animals import SpooningAnimalsSolver
 
 
 class TestAnimals(unittest.TestCase):
