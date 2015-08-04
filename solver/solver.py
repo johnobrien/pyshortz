@@ -69,7 +69,6 @@ class Solver(object):
         Constructor
         '''
         self.p = puzzle_text
-        print("Puzzle:\n"+puzzle_text)
         self.candidates = set()
         for k, v in kwargs.items():
             self.__setattr__(k, v)
