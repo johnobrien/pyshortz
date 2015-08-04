@@ -15,6 +15,8 @@ class SpooningAnimalsSolver(Solver):
         candidates = []
         for a1 in animals:
             for a2 in animals:
+                if self.__dict__.get("verbose", False):
+                    print("Trying {0} and {1}".format(a1, a2))
                 offset_1 = first_vowel(a1)
                 offset_2 = first_vowel(a2)
                 word1 = a1[0:offset_1] + a2[offset_2:]
