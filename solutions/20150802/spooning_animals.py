@@ -2,10 +2,28 @@ from solver.solver import Solver
 from solver.lists import get_animals
 
 
+def first_vowel(word):
+    vowels = "aeiou"
+    word = word.lower()
+    for i in range(0, len(word)):
+        if word[i] in vowels:
+            return i
+
+
 class SpooningAnimalsSolver(Solver):
     def solve(self, animals):
-        return None
-        # Returns possible solutions as list of tuples
+        candidates = []
+        for a1 in animals:
+            for a2 in animals:
+                offset_1 = first_vowel(a1)
+                offset_2 = first_vowel(a2)
+                word1 = a1[0:offset_1] + a2[offset_2:]
+                word2 = a2[0:offset_2] + a1[offset_1:]
+                new_a1 = " ".join([word1, word2])
+                if new_a1 in animals:
+                    candidates.append((a1, a2, new_a1))
+
+        return candidates
 
 if __name__ == '__main__':
 

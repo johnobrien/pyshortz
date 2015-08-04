@@ -8,7 +8,7 @@ class TestAnimals(unittest.TestCase):
     def test_simple(self):
         '''Test to switch first consonant letters'''
         animals = ["cat", "dog", "cog dat", "moose"]
-        correct_solution = ["cat", "dog", "cog dat"]
+        correct_solution = [("cat", "dog", "cog dat")]
         s = SpooningAnimalsSolver("Simple Test", verbose=False)
         self.assertEqual(correct_solution,
                          s.solve(animals=animals))
@@ -16,7 +16,7 @@ class TestAnimals(unittest.TestCase):
     def test_hard(self):
         '''Test to switch first sounds'''
         animals = ["phoenix", "squirrel", "phuirrel sqoenix", "horse"]
-        correct_solution = ["phoenix", "squirrel", "phuirrel sqoenix"]
+        correct_solution = [("phoenix", "squirrel", "phuirrel sqoenix")]
         s = SpooningAnimalsSolver("Hard Test", verbose=False)
         self.assertEqual(correct_solution,
                          s.solve(animals=animals))
