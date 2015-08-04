@@ -4,26 +4,6 @@ import re
 from nltk.corpus import words, wordnet, brown
 import requests
 import string
-import json
-import datetime
-
-NPR_key = "MDE5ODcyNTE2MDE0MzY4MzY2NTY1MDVjMQ001"
-
-
-def get_puzzle(date):
-    '''
-    Get's the puzzle text for
-    a given date via the NRP API.
-
-    date is string in the format 2015-06-15
-    date has to be a Sunday
-    '''
-    response = requests.get("http://api.npr.org/query?id=4473090&date={0}&dateType=story&output=JSON&apiKey=MDE5ODcyNTE2MDE0MzY4MzY2NTY1MDVjMQ001".format(date))
-    d = json.loads(response.text)
-    p = d["list"]["story"][0]["text"]["paragraph"]
-    for text in p:
-        if text["$text"].startswith("Next week's challenge:"):
-            print(text["$text"])
 
 
 # a little easy to use lookup tool for on-the-fly use
