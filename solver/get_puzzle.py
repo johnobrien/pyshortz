@@ -8,6 +8,7 @@ import datetime
 import requests
 import json
 import nltk
+from nltk.tokenize import word_tokenize
 
 NPR_key = "MDE5ODcyNTE2MDE0MzY4MzY2NTY1MDVjMQ001"
 
@@ -32,7 +33,9 @@ def get_puzzle(date):
                 del sentences[0]
             for i, s in enumerate(sentences):
                 print("Sentence {0}: {1}".format(i, s))
-
+                s = word_tokenize(s)
+                print(nltk.pos_tag(s))
+                # http://www.monlp.com/2011/11/08/part-of-speech-tags/
 
 if __name__ == "__main__":
     date = datetime.date(2015, 6, 28)
