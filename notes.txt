@@ -39,3 +39,8 @@ we can stick reusable methods that we notice keep coming up
 
 Maybe try using line_profiler to figure out whether lazy loading cmudict improves performance much.
 installed http://www.microsoft.com/en-us/download/details.aspx?id=44266 to try to get line_profiler working
+
+8/11/15
+
+Type from Michelle Fullwod: Wordnik has phrases, so we could find "roast chicken" etc. Also, Wordnik has "lists",
+which could serve as a very good "get_list" thing to try.
